@@ -1,12 +1,5 @@
 /******************************************************************************
- * Protectron Copyright (c) the Dero Team 2016, All Rights Reserved           *
- * Unauthorized copying of this file, via any medium is strictly prohibited   *
- * Proprietary and confidential                                               *
- * For more information please check the README.md file included              *
- * with this project.                                                         *
  * Written by Denis Trofimov <derofim@yandex.ru>, June 2016                   *
- * The Dero Team is:                                                          *
- *  Denis Trofimov <derofim@yandex.ru>                                         *
  ******************************************************************************/
 
 package com.derofim.protectron;
