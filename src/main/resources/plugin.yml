@@ -1,0 +1,105 @@
+name: Protectron
+main: com.derofim.protectron.ProtectronPlugin
+description: Addition protection and functionality.
+author: Derofim
+website: https://github.com/derofim/
+prefix: Protectron
+version: 1.2
+depend: [WorldGuard]
+description: Protectron plugin.
+commands:
+   preload:
+      description: Reload plugin
+      permission: protectron.command.plugin.reload
+      usage: /<command> or /<command> PluginName
+   pitem:
+      description: Get name of item in hand
+      permission: protectron.command.item.name
+      usage: /<command>
+   pblock:
+      description: Get name of block in hand
+      permission: protectron.command.block.name
+      usage: /<command>
+permissions:
+   protectron.*:
+     description: Gives access to all commands
+     children:
+       protectron.chat.notify.prohibited: true
+       protectron.command.item.name: true
+       protectron.command.block.name: true
+       protectron.debug.console.block.interact: true
+       protectron.debug.console.plugin.actions: true
+       protectron.debug.console.notify.protected: false
+       protectron.debug.console.item.interact: false
+       protectron.debug.console.physical.interact: false
+       protectron.command.plugin.reload: true
+       protectron.access.all.inventory: true
+       protectron.access.everywhere.blocks: true
+       protectron.access.everywhere.items: true
+       protectron.access.everywhere.physical: true
+       protectron.damage.do.everywhere.projectile: true
+       protectron.damage.do.everywhere.weapon: true
+       protectron.damage.get.everywhere.weapon: true
+       protectron.damage.get.everywhere.projectile: true
+       protectron.interact.everywhere.entity: true
+       protectron.view.inventory.name: true
+   protectron.view.inventory.name:
+     description: Allows to view inventory name in chat.
+     default: false
+   protectron.interact.everywhere.entity:
+     description: Allows to interact with all living creatures in all regions.
+     default: false
+   protectron.damage.get.everywhere.projectile:
+     description: Toggles recieving damage everywhere by projectile.
+     default: false
+   protectron.damage.get.everywhere.weapon:
+     description: Toggles recieving damage everywhere by weapon.
+     default: false
+   protectron.damage.do.everywhere.weapon:
+     description: Toggles dealing damage everywhere by weapon.
+     default: false
+   protectron.damage.do.everywhere.projectile:
+     description: Toggles dealing damage everywhere by projectile.
+     default: false
+   protectron.access.everywhere.physical:
+     description: Toggles interaction by phisics with blocks.
+     default: false
+   protectron.access.everywhere.items:
+     description: Toggles interaction with item checks.
+     default: false
+   protectron.access.everywhere.inventory:
+     description: Toggles inventory open checks.
+     default: false
+   protectron.access.everywhere.blocks:
+     description: Toggles block interaction checks.
+     default: false
+   protectron.command.plugin.reload:
+     description: Allows player to reload plugin.
+     default: false
+   protectron.command.item.name:
+     description: Toggles access to pitem command.
+     default: true
+   protectron.command.block.name:
+     description: Toggles access to pblock command.
+     default: true
+   protectron.debug.console.item.interact:
+     description: Toggles notification when player tryes interact with block using item.
+     default: false
+   protectron.debug.console.physical.interact:
+     description: Toggles console notification when player tryes interact with block physically.
+     default: false
+   protectron.debug.console.block.interact:
+     description: Toggles console notification about target when player clicks something.
+     default: false
+   protectron.debug.console.plugin.actions:
+     description: Toggles console notification about all plugin actions when player clicks something.
+     default: false
+   protectron.debug.command.item.name:
+     description: Allows player to use item-name command.
+     default: true
+   protectron.debug.console.notify.protected:
+     description: Toggles console notification about protection when player clicks something.
+     default: true
+   protectron.chat.notify.prohibited:
+     description: Toggles notification when player tryes to do prohibited action.
+     default: true
