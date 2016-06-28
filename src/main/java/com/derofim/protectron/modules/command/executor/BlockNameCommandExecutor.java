@@ -9,7 +9,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.command.AbstractExecutor;
 import com.derofim.protectron.modules.messages.MessagesConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 @SuppressWarnings("deprecation")
 public class BlockNameCommandExecutor extends AbstractExecutor  {
@@ -29,8 +29,8 @@ public class BlockNameCommandExecutor extends AbstractExecutor  {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			if (!p.hasPermission(CommonVars.PERM_BLOCK_NAME)) {
-				p.sendMessage(msg.getStr(CommonVars.MSG_NO_PERMISSION));
+			if (!p.hasPermission(Vars.PERM_BLOCK_NAME)) {
+				p.sendMessage(msg.getStr(MessagesConfig.MSG_NO_PERMISSION));
 				return false;
 			}
 			Block found = null;
@@ -40,12 +40,13 @@ public class BlockNameCommandExecutor extends AbstractExecutor  {
 				}
 			}
 			if (found != null) {
+				p.sendMessage(ChatColor.GOLD + "Block position: " + ChatColor.WHITE + found.getLocation().toString());
 				p.sendMessage(ChatColor.GOLD + "Block id: " + ChatColor.WHITE + BlocksUtils.getBlockIdFull(found));
 				p.sendMessage(ChatColor.GOLD + "Block name: " + ChatColor.WHITE + BlocksUtils.getBlockTypeFull(found));
 			} else
 				p.sendMessage(ChatColor.GOLD + "Look better!");
 		} else {
-			plugin.getLogger().info(msg.getStr(CommonVars.MSG_ONLY_PLAYERS));
+			plugin.getLogger().info(msg.getStr(MessagesConfig.MSG_ONLY_PLAYERS));
 		}
 		return true;
 	}
@@ -57,6 +58,6 @@ public class BlockNameCommandExecutor extends AbstractExecutor  {
 
 	@Override
 	public String getCommandName() {
-		return CommonVars.CMD_BLOCK_NAME;
+		return Vars.CMD_BLOCK_NAME;
 	}
 }

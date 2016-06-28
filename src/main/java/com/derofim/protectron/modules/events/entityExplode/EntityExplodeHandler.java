@@ -31,7 +31,7 @@ public class EntityExplodeHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleEntityExplode(EntityExplodeEvent e) {
 		if (entityExplodeController.checkEntityExplode(e)) {
 			return true;

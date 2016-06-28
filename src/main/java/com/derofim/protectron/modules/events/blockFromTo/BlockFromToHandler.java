@@ -32,7 +32,7 @@ public class BlockFromToHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleBlockFromTo(BlockFromToEvent e) {
 		if (blockFromToController.checkBlockFromTo(e)) {
 			return true;

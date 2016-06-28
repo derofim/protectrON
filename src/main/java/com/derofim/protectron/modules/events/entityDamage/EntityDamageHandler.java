@@ -33,7 +33,7 @@ public class EntityDamageHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleEntityDamage(EntityDamageEvent e) {
 		if (entityDamageController.checkEntityDamage(e)) {
 			return true;

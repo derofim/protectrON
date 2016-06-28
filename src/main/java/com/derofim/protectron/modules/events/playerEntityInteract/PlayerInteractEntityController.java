@@ -11,7 +11,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.config.SettingsConfig;
 import com.derofim.protectron.manager.ProtectionManager;
 import com.derofim.protectron.modules.messages.MessagesConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class PlayerInteractEntityController {
@@ -26,7 +26,7 @@ public class PlayerInteractEntityController {
 	}
 
 	private boolean checkRegion(Player p, Location loc) {
-		return st.getBool(CommonVars.PARAM_DENY_PLAYER_INTERACT_WITH_ENTITY_IN_FOREIGN_REGION) && !wg.canBuild(p, loc);
+		return st.getBool(Vars.PARAM_DENY_PLAYER_INTERACT_WITH_ENTITY_IN_FOREIGN_REGION) && !wg.canBuild(p, loc);
 	}
 
 	// Возвращает true если действие запрещено
@@ -34,7 +34,7 @@ public class PlayerInteractEntityController {
 	public boolean checkPlayerInteractEntity(PlayerInteractEntityEvent e) {
 		Entity ent = e.getRightClicked();
 		Player p = e.getPlayer();
-		if (p.hasPermission(CommonVars.PERM_INTERACT_ENTITY_EVERYWHERE))
+		if (p.hasPermission(Vars.PERM_INTERACT_ENTITY_EVERYWHERE))
 			return false;
 		if (checkRegion(p, ent.getLocation())) {
 			if (debugVerbose) {
@@ -44,7 +44,7 @@ public class PlayerInteractEntityController {
 				lg.info("PlayerInteractEntity type  " + ent.getType().toString());
 				lg.info("PlayerInteractEntity name  " + ent.getType().getName());
 			}
-			p.sendMessage(MessagesConfig.getInstance().getStr(CommonVars.MSG_NOT_ALLOWED));
+			p.sendMessage(MessagesConfig.getInstance().getStr(MessagesConfig.MSG_NOT_ALLOWED));
 			return true;
 		}
 		return false;

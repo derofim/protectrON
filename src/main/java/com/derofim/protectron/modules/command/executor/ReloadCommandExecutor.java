@@ -9,7 +9,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.command.AbstractExecutor;
 import com.derofim.protectron.modules.config.ConfigManager;
 import com.derofim.protectron.modules.messages.MessagesConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 public class ReloadCommandExecutor extends AbstractExecutor {
 	private ProtectronPlugin plugin = ProtectronPlugin.getInstance();
@@ -27,8 +27,8 @@ public class ReloadCommandExecutor extends AbstractExecutor {
 
 	private boolean canPlayerUseCommand(CommandSender sender, Command command, String label, String[] args) {
 		Player p = (Player) sender;
-		if (!p.hasPermission(CommonVars.PERM_RLD)) {
-			p.sendMessage(msg.getStr(CommonVars.MSG_NO_PERMISSION));
+		if (!p.hasPermission(Vars.PERM_RLD)) {
+			p.sendMessage(msg.getStr(MessagesConfig.MSG_NO_PERMISSION));
 			return false;
 		}
 		return false;
@@ -84,6 +84,6 @@ public class ReloadCommandExecutor extends AbstractExecutor {
 	
 	@Override
 	public String getCommandName() {
-		return CommonVars.CMD_RELOAD;
+		return Vars.CMD_RELOAD;
 	}
 }

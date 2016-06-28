@@ -8,6 +8,7 @@ import com.derofim.protectron.config.SettingsConfig;
 import com.derofim.protectron.modules.ModulesConfig;
 import com.derofim.protectron.modules.blockGroup.BlocksConfig;
 import com.derofim.protectron.modules.debug.DebugConfig;
+import com.derofim.protectron.modules.events.inventoryOpen.inventoryOpenConfig;
 import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
 import com.derofim.protectron.modules.itemGroup.ItemsConfig;
 import com.derofim.protectron.modules.messages.MessagesConfig;
@@ -36,6 +37,7 @@ public class ConfigManager {
 		configurations.add(MessagesConfig.getInstance());
 		configurations.add(ModulesConfig.getInstance());
 		configurations.add(SettingsConfig.getInstance());
+		configurations.add(inventoryOpenConfig.getInstance());
 	}
 
 	public void load() {

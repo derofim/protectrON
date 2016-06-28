@@ -31,6 +31,7 @@ public class PlayerCommandPreprocessHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
+	// Checks event
 	public boolean handlePlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
 		if (playerCommandPreprocess.checkPlayerCommandPreprocess(e)) {
 			return true;

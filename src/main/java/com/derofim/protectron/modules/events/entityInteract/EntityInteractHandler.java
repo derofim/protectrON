@@ -32,7 +32,7 @@ public class EntityInteractHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleEntityInteract(EntityInteractEvent e) {
 		if (entityInteractController.checkEntityInteract(e)) {
 			return true;

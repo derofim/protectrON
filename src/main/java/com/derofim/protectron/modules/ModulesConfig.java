@@ -11,12 +11,12 @@ import com.derofim.protectron.modules.command.executor.BlockNameCommandExecutor;
 import com.derofim.protectron.modules.command.executor.ItemNameCommandExecutor;
 import com.derofim.protectron.modules.command.executor.ReloadCommandExecutor;
 import com.derofim.protectron.modules.config.AbstractConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 public class ModulesConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.4";
+	private final String configLanguageVersion = "0.0.6";
 	private final static File defaultFile = new File(plugin.getDataFolder(), "modules.yml");
 
 	// Modules
@@ -38,8 +38,25 @@ public class ModulesConfig extends AbstractConfig {
 	public static final String MODULE_PLAYER_INTERACT_ENITY = module_section + ".player_interact_entity";
 	public static final String MODULE_PROJECTILE_HIT = module_section + ".projectile_hit";
 	public static final String MODULE_PISTON_EXTEND = module_section + ".piston_extend";
-	public static final String MODULE_CMD_PREPROC_ENABLED = module_section + "command_preprocess.enabled";
-	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS = module_section + "command_preprocess.worldguard.autoflags";
+	public static final String MODULE_CMD_PREPROC_ENABLED = module_section + ".command_preprocess.enabled";
+	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS = module_section
+			+ ".command_preprocess.worldguard.autoflags";
+	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTONAME = module_section
+			+ ".command_preprocess.worldguard.autoname";
+	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND = module_section
+			+ ".command_preprocess.worldguard.autoexpand";
+
+	public static final String CONFIG_MODULES_HEADER = "Main configuration file\r\n" + "\r\n" + "~~ Modules ~~\r\n"
+			+ "Modules checks player actions (when enabled). Most modules correspond to in-game events.\r\n"
+			+ "Set false after module name if you want to disable it.\r\n" + "For example, "
+			+ ModulesConfig.MODULE_PLAYER_INTERACT
+			+ ": false will disable checking player interactions (block/item clicking and pressing buttons).\r\n"
+			+ "\r\n" + "~~ Commands ~~\r\n" + "Reload configuration command: /" + Vars.CMD_RELOAD
+			+ ". Permission for command: " + Vars.PERM_RLD + "\r\n" + "Reload any plugin configuration command: /"
+			+ Vars.CMD_RELOAD + " [PluginName]. Permission for command: " + Vars.PERM_RLD + "\r\n"
+			+ "Get name of item in hand command: /" + Vars.CMD_ITEM_NAME + ". Permission for command: "
+			+ Vars.PERM_ITEM_NAME + "\r\n" + "Get block at eye location : /" + Vars.CMD_BLOCK_NAME
+			+ ". Permission for command: " + Vars.PERM_BLOCK_NAME + "\r\n";
 
 	private static ModulesConfig instance = new ModulesConfig();
 
@@ -78,6 +95,8 @@ public class ModulesConfig extends AbstractConfig {
 		fconf.addDefault(MODULE_PISTON_EXTEND, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_ENABLED, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS, true);
+		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTONAME, true);
+		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND, true);
 	}
 
 	@Override
@@ -92,6 +111,6 @@ public class ModulesConfig extends AbstractConfig {
 
 	@Override
 	public String getHeader() {
-		return CommonVars.CONFIG_MODULES_HEADER;
+		return CONFIG_MODULES_HEADER;
 	}
 }

@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.derofim.protectron.ProtectronPlugin;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 public class ConfigUtils {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
@@ -76,23 +76,23 @@ public class ConfigUtils {
 	}
 
 	public String getConfigVersion(FileConfiguration fc) {
-		if (fc.contains(CommonVars.CONF_VER)) {
+		if (fc.contains(Vars.CONF_VER)) {
 			if (debugVerbose)
 				plugin.getLogger()
-						.info("Found " + fc.getCurrentPath() + " v." + fc.getString(CommonVars.CONF_VER));
-			return fc.getString(CommonVars.CONF_VER);
+						.info("Found " + fc.getCurrentPath() + " v." + fc.getString(Vars.CONF_VER));
+			return fc.getString(Vars.CONF_VER);
 		}
 		return "";
 	}
 
 	public boolean checkNewVersion(FileConfiguration fc, String configLanguageVersion) {
-		if (getConfigVersion(fc).equals("") || !fc.getString(CommonVars.CONF_VER).equals(configLanguageVersion))
+		if (getConfigVersion(fc).equals("") || !fc.getString(Vars.CONF_VER).equals(configLanguageVersion))
 			return true;
 		return false;
 	}
 	
 	public String getBackupFolderName(){
-		return CommonVars.FOLDER_SEPARATOR+"backup"+CommonVars.FOLDER_SEPARATOR;
+		return Vars.FOLDER_SEPARATOR+"backup"+Vars.FOLDER_SEPARATOR;
 	}
 	
 	private void makeBackupFolder(){

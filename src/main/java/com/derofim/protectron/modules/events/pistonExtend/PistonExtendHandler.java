@@ -31,7 +31,7 @@ public class PistonExtendHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handlePistonExtend(BlockPistonExtendEvent e) {
 		if (pistonExtendController.checkPistonExtend(e)) {
 			return true;

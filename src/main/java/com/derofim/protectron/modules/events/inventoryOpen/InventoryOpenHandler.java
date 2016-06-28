@@ -30,7 +30,7 @@ public class InventoryOpenHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleInventoryOpen(InventoryOpenEvent e) {
 		if (inventoryOpenController.checkInventoryOpen(e)) {
 			return true;

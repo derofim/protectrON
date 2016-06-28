@@ -84,7 +84,7 @@ public class PlayerInteractHandler extends AbstractEvent {
 		return false;
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handlePlayerInteract(PlayerInteractEvent e) {
 		if (detectItemClick(e))
 			return true;

@@ -7,7 +7,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.config.SettingsConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 public class EntityExplodeController {
 	private static final boolean debugVerbose = false;
@@ -22,7 +22,7 @@ public class EntityExplodeController {
 	// Возвращает true если действие запрещено
 	public boolean checkEntityExplode(EntityExplodeEvent e) {
 		Entity ent = e.getEntity();
-		if (st.getBool(CommonVars.PARAM_DENY_ENTITY_EXPOSION_EVERYWHERE)) {
+		if (st.getBool(Vars.PARAM_DENY_ENTITY_EXPOSION_EVERYWHERE)) {
 			if (debugVerbose) {
 				lg.info("EntityExplodeEventHandler ent.getType() " + ent.getType().toString());
 				lg.info("EntityExplodeEventHandler evtName " + e.getEventName());

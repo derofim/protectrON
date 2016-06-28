@@ -12,10 +12,11 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.manager.ProtectionManager;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
+import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
 import com.derofim.protectron.modules.itemGroup.ItemsConfig;
 import com.derofim.protectron.modules.itemGroup.itemsUtils;
 import com.derofim.protectron.modules.messages.MessagesConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ItemBlockInteractController {
@@ -47,18 +48,18 @@ public class ItemBlockInteractController {
 		if (icf.getConfig().contains(ItemConfigName)) {
 			List<String> listDenyItemRightClickOnBocks = icf.getStrList(ItemConfigName);
 			for (String itBlock : listDenyItemRightClickOnBocks) {
-				if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+				if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 					lg.info("# checking block " + itBlock + " for item " + ItemConfigName);
 				if (BlocksUtils.checkEqualBlock(b, itBlock)) {
-					if (dcf.getBool(CommonVars.PARAM_DINFORM) && p.hasPermission(CommonVars.PERM_INFORM)) {
+					if (dcf.getBool(DebugConfig.PARAM_DINFORM) && p.hasPermission(Vars.PERM_INFORM)) {
 						String msgProt = "";
 						String itmName = itemsUtils.getItemTypeFull(e.getItem());
 						if (!wg.canBuild(p, e.getClickedBlock().getLocation()))
-							msgProt = msg.getStr(CommonVars.MSG_REG_PROTECTED);
-						p.sendMessage(msg.getStr(CommonVars.MSG_NOT_ALLOWED) + " " + itBlock + " & " + itmName + ". "
+							msgProt = msg.getStr(MessagesConfig.MSG_REG_PROTECTED);
+						p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + itBlock + " & " + itmName + ". "
 								+ msgProt);
 					}
-					if (dcf.getBool(CommonVars.PARAM_DGRIEFB) && p.hasPermission(CommonVars.PERM_DPROT)) {
+					if (dcf.getBool(DebugConfig.PARAM_DGRIEFB) && p.hasPermission(Vars.PERM_DPROT)) {
 						lg.info("Grief attempt by " + p.getDisplayName() + " with " + itBlock + "&" + ItemConfigName
 								+ "at" + p.getLocation());
 					}
@@ -76,35 +77,35 @@ public class ItemBlockInteractController {
 		if (debugVerbose)
 			lg.info("ItemWithBlockInteractCheck for" + Pack);
 		String configName = ""; // ToDo: Item metadata
-		String ConfigDenyItemRightClickOnBocks = CommonVars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + CommonVars.SuffixOnBlocksEverywhere;
-		String ConfigDenyItemLeftClickOnBocks = CommonVars.PrefixClickMouseLeft + "." + itemsUtils.getItemTypeName(itm)
-				+ "." + CommonVars.SuffixOnBlocksEverywhere;
-		String ConfigDenyItemRightClickOnBocksInForeignRegion = CommonVars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + CommonVars.SuffixOnBlocksInForeignRegion;
-		String ConfigDenyItemLeftClickOnBocksInForeignRegion = CommonVars.PrefixClickMouseLeft + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + CommonVars.SuffixOnBlocksInForeignRegion;
-		String ConfigDenyItemRightClickOnBocksInMyRegion = CommonVars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + CommonVars.SuffixOnBlocksInMyRegion;
-		String ConfigDenyItemLeftClickOnBocksInMyRegion = CommonVars.PrefixClickMouseLeft + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + CommonVars.SuffixOnBlocksInMyRegion;
+		String ConfigDenyItemRightClickOnBocks = Vars.PrefixClickMouseRight + "."
+				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksEverywhere;
+		String ConfigDenyItemLeftClickOnBocks = Vars.PrefixClickMouseLeft + "." + itemsUtils.getItemTypeName(itm)
+				+ "." + Vars.SuffixOnBlocksEverywhere;
+		String ConfigDenyItemRightClickOnBocksInForeignRegion = Vars.PrefixClickMouseRight + "."
+				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
+		String ConfigDenyItemLeftClickOnBocksInForeignRegion = Vars.PrefixClickMouseLeft + "."
+				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
+		String ConfigDenyItemRightClickOnBocksInMyRegion = Vars.PrefixClickMouseRight + "."
+				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
+		String ConfigDenyItemLeftClickOnBocksInMyRegion = Vars.PrefixClickMouseLeft + "."
+				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
 
 		Player p = (Player) e.getPlayer();
 		if (!wg.canBuild(p, e.getClickedBlock().getLocation())) {
-			if (Pack.equals(CommonVars.ITEM_RC_WG)) {
+			if (Pack.equals(PlayerInteractConfig.ITEM_RC_WG)) {
 				configName = ConfigDenyItemRightClickOnBocksInForeignRegion;
-			} else if (Pack.equals(CommonVars.ITEM_LC_WG)) {
+			} else if (Pack.equals(PlayerInteractConfig.ITEM_LC_WG)) {
 				configName = ConfigDenyItemLeftClickOnBocksInForeignRegion;
 			} else
 				return false;
 		} else {
-			if (Pack.equals(CommonVars.ITEM_RC_MY)) {
+			if (Pack.equals(PlayerInteractConfig.ITEM_RC_MY)) {
 				configName = ConfigDenyItemRightClickOnBocksInMyRegion;
-			} else if (Pack.equals(CommonVars.ITEM_LC_MY)) {
+			} else if (Pack.equals(PlayerInteractConfig.ITEM_LC_MY)) {
 				configName = ConfigDenyItemLeftClickOnBocksInMyRegion;
-			} else if (Pack.equals(CommonVars.ITEM_RC_EW)) {
+			} else if (Pack.equals(PlayerInteractConfig.ITEM_RC_EW)) {
 				configName = ConfigDenyItemRightClickOnBocks;
-			} else if (Pack.equals(CommonVars.ITEM_LC_EW)) {
+			} else if (Pack.equals(PlayerInteractConfig.ITEM_LC_EW)) {
 				configName = ConfigDenyItemLeftClickOnBocks;
 			} else
 				return false;

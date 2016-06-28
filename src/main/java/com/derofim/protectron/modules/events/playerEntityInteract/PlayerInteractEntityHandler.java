@@ -32,7 +32,7 @@ public class PlayerInteractEntityHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handlePlayerInteractEntity(PlayerInteractEntityEvent e) {
 		if (playerEntityInteractController.checkPlayerInteractEntity(e)) {
 			return true;

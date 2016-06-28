@@ -8,7 +8,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.manager.ProtectionManager;
-import com.derofim.protectron.util.CommonUtils;
+import com.derofim.protectron.util.Utils;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.managers.RegionManager;
@@ -18,7 +18,8 @@ public class PistonExtendController {
 
 	private ProtectronPlugin m = ProtectronPlugin.getInstance();
 	private Logger lg = m.getLogger();
-	private WorldGuardPlugin wg = ProtectionManager.getInstance().getWorldGuard();
+	ProtectionManager protMgr = ProtectionManager.getInstance();
+	private WorldGuardPlugin wg = protMgr.getWorldGuard();
 
 	public PistonExtendController() {
 	}
@@ -28,27 +29,26 @@ public class PistonExtendController {
 		List<Block> affectedBlocks = e.getBlocks();
 		RegionManager regionManager = wg.getRegionManager(b.getWorld());
 		ApplicableRegionSet set = regionManager.getApplicableRegions(b.getLocation());
-		Set<String> pistonOwners = ProtectionManager.getInstance().getUserSet(set);
 		if (debugVerbose) {
+			Set<String> pistonOwners = protMgr.getUserSet(set);
 			for (String sUsr : pistonOwners) {
 				lg.info("BlockPistonExtendEventHandler pistonOwners at " + b.getLocation() + ": user " + sUsr);
 			}
 			lg.info("BlockPistonExtendEventHandler affectedBlocks size " + affectedBlocks.size());
 		}
 		for (Block block : affectedBlocks) {
-			set = regionManager.getApplicableRegions(block.getLocation());
+			ApplicableRegionSet setAffected = regionManager.getApplicableRegions(block.getLocation());
 			if (debugVerbose) {
-				for (String sUsr : ProtectionManager.getInstance().getUserSet(set)) {
+				for (String sUsr : protMgr.getUserSet(setAffected)) {
 					lg.info("BlockPistonExtendEventHandler getUserSet at " + block.getLocation() + ": user " + sUsr);
 				}
 			}
-			if (set != null && set.size() > 0 && (pistonOwners.isEmpty()
-					|| !ProtectionManager.getInstance().getUserSet(set).containsAll(pistonOwners))) {
+			if (protMgr.isDifferentRegionOwners(set, setAffected)) {
 				if (debugVerbose) {
 					lg.info("BlockPistonExtendEventHandler block " + b.getType().toString());
 					lg.info("BlockPistonExtendEventHandler evtName " + e.getEventName());
 				}
-				CommonUtils.sendMessageToClosestPlayer(b.getLocation(), b.getLocation().getWorld().getPlayers());
+				Utils.sendMessageToClosestPlayer(b.getLocation(), b.getLocation().getWorld().getPlayers());
 				return true;
 			}
 		}

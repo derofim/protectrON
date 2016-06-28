@@ -31,8 +31,8 @@ public class ProjectileHitHandler extends AbstractEvent {
 		handleProjectileHit(e);
 	}
 
-	// Проверки при событии
-	// deletes projectile in region
+	// Checks event
+	// May delete projectile in region
 	public void handleProjectileHit(ProjectileHitEvent e) {
 		if (projectileHitController.checkProjectileHit(e)) {
 			Entity ent = e.getEntity();

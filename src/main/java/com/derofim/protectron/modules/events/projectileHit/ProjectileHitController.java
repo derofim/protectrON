@@ -10,7 +10,7 @@ import org.bukkit.event.entity.ProjectileHitEvent;
 import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.config.SettingsConfig;
 import com.derofim.protectron.manager.ProtectionManager;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class ProjectileHitController {
@@ -31,7 +31,7 @@ public class ProjectileHitController {
 		if (proj.getShooter() instanceof Player) {
 			Player shooter = (Player) proj.getShooter();
 			if (shooter != null) {
-				if (st.getBool(CommonVars.PARAM_DENY_PROJECTILE_IN_FOREGN_REGION)
+				if (st.getBool(Vars.PARAM_DENY_PROJECTILE_IN_FOREGN_REGION)
 						&& !wg.canBuild(shooter, proj.getLocation())) {
 					if (debugVerbose) {
 						lg.info("ProjectileHitEventHandler id  " + ent.getEntityId());

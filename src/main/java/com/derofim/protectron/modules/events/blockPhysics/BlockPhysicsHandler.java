@@ -30,7 +30,7 @@ public class BlockPhysicsHandler extends AbstractEvent {
 			e.setCancelled(true);
 	}
 
-	// Проверки при событии
+	// Checks event
 	public boolean handleBlockPhysics(BlockPhysicsEvent e) {
 		if (blockPhysics.checkBlockPhysics(e)) {
 			return true;

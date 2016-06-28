@@ -7,7 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.derofim.protectron.ProtectronPlugin;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 
 /**
  * Represents abstract configuration
@@ -40,7 +40,7 @@ public abstract class AbstractConfig implements ConfigInterface {
 	public void setDefaults() {
 		FileConfiguration fconf = new YamlConfiguration();
 		setCustomDefaults(fconf); // fill file
-		fconf.addDefault(CommonVars.CONF_VER, getLanguageVersion());
+		fconf.addDefault(Vars.CONF_VER, getLanguageVersion());
 		configUtils.setDefaultsConfig(getFile(), fconf, this);
 	}
 

@@ -14,7 +14,7 @@ import com.derofim.protectron.modules.blockGroup.BlocksConfig;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
 import com.derofim.protectron.modules.events.playerInteract.PackManager;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class BlockInteractController {
@@ -36,12 +36,12 @@ public class BlockInteractController {
 		if (!packEvent.checkPackRegion(e, Pack))
 			return false;
 
-		if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+		if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 			lg.info("+++ " + Pack);
 
 		// Перебирает наборы в пакете действий
 		for (String it : acf.getStrList(Pack)) {
-			if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+			if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 				lg.info("++ " + it);
 			if (!blc.getConfig().contains(it) || !blc.getConfig().isList(it)) {
 				lg.warning("Need fix config for " + Pack + " : " + it);
@@ -61,11 +61,11 @@ public class BlockInteractController {
 	// Проверка нажатия правой кнопки мыши
 	// Возвращает true если действие нужно запретить
 	public boolean checkBlockRC(PlayerInteractEvent e) {
-		if (checkEventByPack(e, CommonVars.RC_BG_EW)) {
+		if (checkEventByPack(e, PlayerInteractConfig.RC_BG_EW)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.RC_BG_WG)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.RC_BG_WG)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.RC_BG_MY)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.RC_BG_MY)) {
 			return true;
 		}
 		return false;
@@ -74,11 +74,11 @@ public class BlockInteractController {
 	// Проверка нажатия левой кнопки мыши
 	// Возвращает true если действие нужно запретить
 	public boolean checkBlockLC(PlayerInteractEvent e) {
-		if (checkEventByPack(e, CommonVars.LC_BG_EW)) {
+		if (checkEventByPack(e, PlayerInteractConfig.LC_BG_EW)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.LC_BG_WG)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.LC_BG_WG)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.RC_BG_MY)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.RC_BG_MY)) {
 			return true;
 		}
 		return false;
@@ -87,13 +87,13 @@ public class BlockInteractController {
 	// Проверка взаимодействия с блоком
 	public boolean checkBlock(PlayerInteractEvent e) {
 		Player p = (Player) e.getPlayer();
-		if (p.hasPermission(CommonVars.PERM_ALL_BLOCKS_INTERACT))
+		if (p.hasPermission(Vars.PERM_ALL_BLOCKS_INTERACT))
 			return false;
 		Block b = e.getClickedBlock();
 		String blockName = BlocksUtils.getBlockTypeFull(b);
 		String blockIdName = BlocksUtils.getBlockIdFull(b);
 		boolean canBuild = wg.canBuild(p, b.getLocation());
-		if (dcf.getBool(CommonVars.PARAM_DCLICKB) && p.hasPermission(CommonVars.PERM_DBGCLKB)) {
+		if (dcf.getBool(DebugConfig.PARAM_DCLICKB) && p.hasPermission(Vars.PERM_DBGCLKB)) {
 			lg.info("Clicked " + blockName + " (" + blockIdName + ") at " + b.getLocation() + ". Can interact: "
 					+ canBuild);
 		}

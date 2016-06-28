@@ -13,7 +13,8 @@ import com.derofim.protectron.modules.blockGroup.BlocksConfig;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
 import com.derofim.protectron.modules.events.playerInteract.PackManager;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 // »спользует BlockInteractController дл¤ проверки имени блока
@@ -31,9 +32,9 @@ public class PhysicalInteractController {
 	// ¬озвращает true если проверка запрещена т.е. есть полный доступ
 	private boolean checkConfiguration(PlayerInteractEvent e) {
 		Player p = (Player) e.getPlayer();
-		if (p.hasPermission(CommonVars.PERM_ALL_PHYSICAL_INTERACT))
+		if (p.hasPermission(Vars.PERM_ALL_PHYSICAL_INTERACT))
 			return true;
-		if (dcf.getBool(CommonVars.PARAM_DCLICKP) && p.hasPermission(CommonVars.PERM_DBGCLKP)) {
+		if (dcf.getBool(DebugConfig.PARAM_DCLICKP) && p.hasPermission(Vars.PERM_DBGCLKP)) {
 			Block b = e.getClickedBlock();
 			String blockName = BlocksUtils.getBlockTypeFull(b);
 			boolean canBuild = wg.canBuild(p, b.getLocation());
@@ -51,12 +52,12 @@ public class PhysicalInteractController {
 		if (!packEvent.checkPackRegion(e, Pack))
 			return false;
 
-		if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+		if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 			lg.info("+++ " + Pack);
 
 		// ѕеребирает наборы в пакете действий
 		for (String it : blc.getStrList(Pack)) {
-			if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+			if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 				lg.info("++ " + it);
 			if (!blc.getConfig().contains(it) || !blc.getConfig().isList(it)) {
 				lg.warning("Need fix config for " + Pack + " : " + it);
@@ -79,11 +80,11 @@ public class PhysicalInteractController {
 		if (checkConfiguration(e))
 			return false;
 
-		if (checkEventByPack(e, CommonVars.PHYSICAL_EW)) {
+		if (checkEventByPack(e, PlayerInteractConfig.PHYSICAL_EW)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.PHYSICAL_WG)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.PHYSICAL_WG)) {
 			return true;
-		} else if (checkEventByPack(e, CommonVars.PHYSICAL_MY)) {
+		} else if (checkEventByPack(e, PlayerInteractConfig.PHYSICAL_MY)) {
 			return true;
 		}
 

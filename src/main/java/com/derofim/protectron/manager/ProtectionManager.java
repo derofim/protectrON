@@ -33,6 +33,18 @@ public class ProtectionManager {
 			plugin.getLogger().warning("Protection cant load WorldGuard!");
 	}
 
+	// Returns true if regions has different owners
+	public boolean isDifferentRegionOwners(ApplicableRegionSet setFrom, ApplicableRegionSet setTo) {
+		if (setTo == null || setFrom == null)
+			return false;
+		Set<String> fromOwners = ProtectionManager.getInstance().getUserSet(setFrom);
+		Set<String> toOwners = ProtectionManager.getInstance().getUserSet(setTo);
+		if (setTo.size() > 0 && (fromOwners.isEmpty() || !toOwners.containsAll(fromOwners))) {
+			return true;
+		}
+		return false;
+	}
+
 	public Set<String> getUserSet(ApplicableRegionSet rs) {
 		Set<String> set = new HashSet<String>();
 		if (rs != null) {

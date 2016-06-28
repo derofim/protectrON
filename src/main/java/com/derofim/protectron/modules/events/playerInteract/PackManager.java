@@ -14,7 +14,7 @@ import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
 import com.derofim.protectron.modules.itemGroup.itemsUtils;
 import com.derofim.protectron.modules.messages.MessagesConfig;
-import com.derofim.protectron.util.CommonVars;
+import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 /* 
@@ -55,17 +55,17 @@ public class PackManager {
 
 		// Проверка по региону можно ли использовать предмет на любых блоках
 		for (String itStack : namesList) {
-			if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+			if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 				lg.info("+ " + itStack);
 			if (itemsUtils.checkEqualItem(b, itStack)) {
 				String msgProt = "";
 				if (!wg.canBuild(p, e.getClickedBlock().getLocation()))
-					msgProt = msg.getStr(CommonVars.MSG_REG_PROTECTED);
+					msgProt = msg.getStr(MessagesConfig.MSG_REG_PROTECTED);
 
-				if (dcf.getBool(CommonVars.PARAM_DINFORM) && p.hasPermission(CommonVars.PERM_INFORM)) {
-					p.sendMessage(msg.getStr(CommonVars.MSG_NOT_ALLOWED) + " " + itStack + ". " + msgProt);
+				if (dcf.getBool(DebugConfig.PARAM_DINFORM) && p.hasPermission(Vars.PERM_INFORM)) {
+					p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + itStack + ". " + msgProt);
 				}
-				if (dcf.getBool(CommonVars.PARAM_DGRIEFB) && p.hasPermission(CommonVars.PERM_DPROT)) {
+				if (dcf.getBool(DebugConfig.PARAM_DGRIEFB) && p.hasPermission(Vars.PERM_DPROT)) {
 					lg.info("Grief attempt by " + p.getDisplayName() + " with item " + itStack + "at"
 							+ p.getLocation());
 				}
@@ -81,16 +81,16 @@ public class PackManager {
 		Player p = (Player) e.getPlayer();
 		Block b = e.getClickedBlock();
 		for (String itBlock : griefList) {
-			if (dcf.getBool(CommonVars.PARAM_DALL) && p.hasPermission(CommonVars.PERM_DBGPLG))
+			if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 				lg.info("+ " + itBlock);
 			if (BlocksUtils.checkEqualBlock(b, itBlock)) {
-				if (dcf.getBool(CommonVars.PARAM_DINFORM) && p.hasPermission(CommonVars.PERM_INFORM)) {
+				if (dcf.getBool(DebugConfig.PARAM_DINFORM) && p.hasPermission(Vars.PERM_INFORM)) {
 					String msgProt = "";
 					if (!wg.canBuild(p, e.getClickedBlock().getLocation()))
-						msgProt = msg.getStr(CommonVars.MSG_REG_PROTECTED);
-					p.sendMessage(msg.getStr(CommonVars.MSG_NOT_ALLOWED) + " " + itBlock + ". " + msgProt);
+						msgProt = msg.getStr(MessagesConfig.MSG_REG_PROTECTED);
+					p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + itBlock + ". " + msgProt);
 				}
-				if (dcf.getBool(CommonVars.PARAM_DGRIEFB) && p.hasPermission(CommonVars.PERM_DPROT)) {
+				if (dcf.getBool(DebugConfig.PARAM_DGRIEFB) && p.hasPermission(Vars.PERM_DPROT)) {
 					lg.info("Grief attempt by " + p.getDisplayName() + " with block " + itBlock + "at"
 							+ p.getLocation());
 				}
@@ -104,20 +104,20 @@ public class PackManager {
 	// Возвращает true если название действия и пакета совпадают
 	public boolean checkPackRegion(PlayerInteractEvent e, String Pack) {
 		Player p = (Player) e.getPlayer();
-		if (Pack.equals(CommonVars.RC_BG_WG) || Pack.equals(CommonVars.LC_BG_WG) || Pack.equals(CommonVars.PHYSICAL_WG)
-				|| Pack.equals(CommonVars.ITEM_RC_WG) || Pack.equals(CommonVars.ITEM_LC_WG)) {
+		if (Pack.equals(PlayerInteractConfig.RC_BG_WG) || Pack.equals(PlayerInteractConfig.LC_BG_WG) || Pack.equals(PlayerInteractConfig.PHYSICAL_WG)
+				|| Pack.equals(PlayerInteractConfig.ITEM_RC_WG) || Pack.equals(PlayerInteractConfig.ITEM_LC_WG)) {
 			if (!wg.canBuild(p, e.getClickedBlock().getLocation())) {
 				return true;
 			}
-		} else if (Pack.equals(CommonVars.RC_BG_MY) || Pack.equals(CommonVars.LC_BG_MY)
-				|| Pack.equals(CommonVars.PHYSICAL_MY) || Pack.equals(CommonVars.ITEM_RC_MY)
-				|| Pack.equals(CommonVars.ITEM_LC_MY)) {
+		} else if (Pack.equals(PlayerInteractConfig.RC_BG_MY) || Pack.equals(PlayerInteractConfig.LC_BG_MY)
+				|| Pack.equals(PlayerInteractConfig.PHYSICAL_MY) || Pack.equals(PlayerInteractConfig.ITEM_RC_MY)
+				|| Pack.equals(PlayerInteractConfig.ITEM_LC_MY)) {
 			if (wg.canBuild(p, e.getClickedBlock().getLocation())) {
 				return true;
 			}
-		} else if (Pack.equals(CommonVars.RC_BG_EW) || Pack.equals(CommonVars.LC_BG_EW)
-				|| Pack.equals(CommonVars.PHYSICAL_EW) || Pack.equals(CommonVars.ITEM_RC_EW)
-				|| Pack.equals(CommonVars.ITEM_LC_EW)) {
+		} else if (Pack.equals(PlayerInteractConfig.RC_BG_EW) || Pack.equals(PlayerInteractConfig.LC_BG_EW)
+				|| Pack.equals(PlayerInteractConfig.PHYSICAL_EW) || Pack.equals(PlayerInteractConfig.ITEM_RC_EW)
+				|| Pack.equals(PlayerInteractConfig.ITEM_LC_EW)) {
 			return true;
 		}
 		return false;
