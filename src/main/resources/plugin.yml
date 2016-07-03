@@ -20,6 +20,10 @@ commands:
       description: Get name of block in hand
       permission: protectron.command.block.name
       usage: /<command>
+   oopslimit:
+      description: Deletes blocks owned by player with place limit.
+      permission: protectron.command.oopslimit.me
+      usage: /<command>
 permissions:
    protectron.*:
      description: Gives access to all commands

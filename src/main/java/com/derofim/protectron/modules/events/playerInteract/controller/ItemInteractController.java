@@ -13,7 +13,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.manager.ProtectionManager;
 import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
 import com.derofim.protectron.modules.itemGroup.ItemsConfig;
-import com.derofim.protectron.modules.itemGroup.itemsUtils;
+import com.derofim.protectron.modules.itemGroup.ItemsUtils;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
 import com.derofim.protectron.modules.events.playerInteract.PackManager;
@@ -102,7 +102,7 @@ public class ItemInteractController {
 		ItemStack itm = e.getItem();
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK) || e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 			Block b = e.getClickedBlock();
-			String itemName = itemsUtils.getItemTypeFull(itm);
+			String itemName = ItemsUtils.getItemTypeFull(itm);
 			String blockName = BlocksUtils.getBlockTypeFull(b);
 			String blockIdName = BlocksUtils.getBlockIdFull(b);
 			boolean canBuild = wg.canBuild(p, b.getLocation());

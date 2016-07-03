@@ -12,7 +12,7 @@ public class BlockPhysicsHandler extends AbstractEvent {
 
 	public BlockPhysicsHandler() {
 	}
-	
+
 	@Override
 	public String getConfigName() {
 		return ModulesConfig.MODULE_BLOCKS_PHYSICS;

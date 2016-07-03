@@ -11,17 +11,27 @@ public class BlocksUtils {
 
 	private BlocksUtils() {
 	}
-
+	
 	// Возвращает номер блока
 	@SuppressWarnings("deprecation")
-	public static String getBlockIdName(Block b) {
-		return "" + b.getType().getId();
+	public static int getBlockId(Block b) {
+		return b.getType().getId();
 	}
 
 	// Возвращает дополнительные данные блока
 	@SuppressWarnings("deprecation")
+	public static int getBlockData(Block b) {
+		return b.getData();
+	}
+
+	// Возвращает номер блока
+	public static String getBlockIdName(Block b) {
+		return "" + getBlockId(b);
+	}
+
+	// Возвращает дополнительные данные блока
 	public static String getBlockDataName(Block b) {
-		return "" + b.getData();
+		return "" + getBlockData(b);
 	}
 
 	// Возвращает название блока
@@ -51,5 +61,9 @@ public class BlocksUtils {
 			return true; // 1234 with any metadata
 		}
 		return false;
+	}
+
+	public static String getLocalized(Block b) {
+		return b.getType().toString().toLowerCase().replace("_", " ");
 	}
 }

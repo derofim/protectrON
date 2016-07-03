@@ -9,10 +9,9 @@ import com.derofim.protectron.modules.events.AbstractEvent;
 
 public class BlockFromToHandler extends AbstractEvent {
 	private BlockFromToController blockFromToController = BlockFromToController.getInstance();
-
 	public BlockFromToHandler() {
 	}
-	
+
 	@Override
 	public String getConfigName() {
 		return ModulesConfig.MODULE_BLOCKS_MOVEMENT;
@@ -22,7 +21,7 @@ public class BlockFromToHandler extends AbstractEvent {
 	public boolean getDefaultState() {
 		return true;
 	}
-	
+
 	// Represents events with a source block and a destination block.
 	// Currently only applies to liquid and teleporting dragon eggs.
 	// If a Block From To event is cancelled, the block will not move

@@ -14,7 +14,7 @@ import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
 import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
 import com.derofim.protectron.modules.itemGroup.ItemsConfig;
-import com.derofim.protectron.modules.itemGroup.itemsUtils;
+import com.derofim.protectron.modules.itemGroup.ItemsUtils;
 import com.derofim.protectron.modules.messages.MessagesConfig;
 import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -53,7 +53,7 @@ public class ItemBlockInteractController {
 				if (BlocksUtils.checkEqualBlock(b, itBlock)) {
 					if (dcf.getBool(DebugConfig.PARAM_DINFORM) && p.hasPermission(Vars.PERM_INFORM)) {
 						String msgProt = "";
-						String itmName = itemsUtils.getItemTypeFull(e.getItem());
+						String itmName = ItemsUtils.getItemTypeFull(e.getItem());
 						if (!wg.canBuild(p, e.getClickedBlock().getLocation()))
 							msgProt = msg.getStr(MessagesConfig.MSG_REG_PROTECTED);
 						p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + itBlock + " & " + itmName + ". "
@@ -78,17 +78,17 @@ public class ItemBlockInteractController {
 			lg.info("ItemWithBlockInteractCheck for" + Pack);
 		String configName = ""; // ToDo: Item metadata
 		String ConfigDenyItemRightClickOnBocks = Vars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksEverywhere;
-		String ConfigDenyItemLeftClickOnBocks = Vars.PrefixClickMouseLeft + "." + itemsUtils.getItemTypeName(itm)
+				+ ItemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksEverywhere;
+		String ConfigDenyItemLeftClickOnBocks = Vars.PrefixClickMouseLeft + "." + ItemsUtils.getItemTypeName(itm)
 				+ "." + Vars.SuffixOnBlocksEverywhere;
 		String ConfigDenyItemRightClickOnBocksInForeignRegion = Vars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
+				+ ItemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
 		String ConfigDenyItemLeftClickOnBocksInForeignRegion = Vars.PrefixClickMouseLeft + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
+				+ ItemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInForeignRegion;
 		String ConfigDenyItemRightClickOnBocksInMyRegion = Vars.PrefixClickMouseRight + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
+				+ ItemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
 		String ConfigDenyItemLeftClickOnBocksInMyRegion = Vars.PrefixClickMouseLeft + "."
-				+ itemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
+				+ ItemsUtils.getItemTypeName(itm) + "." + Vars.SuffixOnBlocksInMyRegion;
 
 		Player p = (Player) e.getPlayer();
 		if (!wg.canBuild(p, e.getClickedBlock().getLocation())) {

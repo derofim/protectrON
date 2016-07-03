@@ -1,41 +1,44 @@
 package com.derofim.protectron.modules.command.executor;
 
-import org.bukkit.ChatColor;
+import java.util.TreeMap;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import com.derofim.protectron.ProtectronPlugin;
+import com.derofim.protectron.manager.data.DataManager;
 import com.derofim.protectron.modules.command.AbstractExecutor;
-import com.derofim.protectron.modules.itemGroup.ItemsUtils;
 import com.derofim.protectron.modules.messages.MessagesConfig;
 import com.derofim.protectron.util.Vars;
 
-public class ItemNameCommandExecutor extends AbstractExecutor {
+public class OopsLimit extends AbstractExecutor {
 	private ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 	private MessagesConfig msg = MessagesConfig.getInstance();
 
-	private static ItemNameCommandExecutor instance = new ItemNameCommandExecutor();
+	private static OopsLimit instance = new OopsLimit();
 
-	public static final ItemNameCommandExecutor getInstance() {
+	public static final OopsLimit getInstance() {
 		return instance;
 	}
 
-	private ItemNameCommandExecutor() {
+	private OopsLimit() {
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		if (sender instanceof Player) {
 			Player p = (Player) sender;
-			if (!p.hasPermission(Vars.PERM_ITEM_NAME)) {
+			if (!p.hasPermission(Vars.PERM_OOPS_LIMIT)) {
 				p.sendMessage(msg.getStr(MessagesConfig.MSG_NO_PERMISSION));
 				return false;
 			}
-			ItemStack found = p.getItemInHand();
-			p.sendMessage(ChatColor.GOLD + "Item id: " + ChatColor.WHITE + ItemsUtils.getItemIdFull(found));
-			p.sendMessage(ChatColor.GOLD + "Item name: " + ChatColor.WHITE + ItemsUtils.getItemTypeFull(found));
+			int pId = DataManager.findUsersIdTable(p);
+			int deletedCount = DataManager.clearBlocksIdTable(pId);
+			TreeMap<String, String> matches = new TreeMap<String, String>();
+			matches.put("#count#", ""+deletedCount);
+			matches.put("#player#", p.getName());
+			p.sendMessage(msg.prepareStr(MessagesConfig.MSG_LIMITS_CLEARED, matches));
 		} else {
 			plugin.getLogger().info(msg.getStr(MessagesConfig.MSG_ONLY_PLAYERS));
 		}
@@ -44,11 +47,11 @@ public class ItemNameCommandExecutor extends AbstractExecutor {
 
 	@Override
 	public String getConfigName() {
-		return "item_name";
+		return "oops_limit";
 	}
 
 	@Override
 	public String getCommandName() {
-		return Vars.CMD_ITEM_NAME;
+		return Vars.CMD_OOPS_LIMIT;
 	}
 }

@@ -10,7 +10,7 @@ import com.derofim.protectron.util.Vars;
 public class DebugConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(),
 			Vars.FOLDER_MODULES + Vars.FOLDER_SEPARATOR + "debug" + Vars.FOLDER_SEPARATOR + "debug.yml");
 

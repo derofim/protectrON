@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
-import com.derofim.protectron.modules.messages.MessagesConfig;
+import com.derofim.protectron.ProtectronPlugin;
 
 public class Utils {
 
@@ -40,7 +40,7 @@ public class Utils {
 	}
 
 	// Sends message to closest player
-	public static void sendMessageToClosestPlayer(Location origin, List<Player> plst) {
+	public static void notifyClosestPlayer(Location origin, List<Player> plst, String msg, int maxDist) {
 		if (plst.isEmpty())
 			return;
 		double minDist = plst.get(0).getLocation().distanceSquared(origin);
@@ -48,13 +48,48 @@ public class Utils {
 		Player closest = null;
 		for (Player itPlr : origin.getWorld().getPlayers()) {
 			curDist = itPlr.getLocation().distanceSquared(origin);
+			if (curDist > maxDist)
+				continue;
 			if (curDist <= minDist) {
 				minDist = curDist;
 				closest = itPlr;
 			}
 		}
 		if (closest != null) {
-			closest.sendMessage(MessagesConfig.getInstance().getStr(MessagesConfig.MSG_NOT_ALLOWED));
+			closest.sendMessage(msg);
+		}
+	}
+
+	/**
+	 * 
+	 * @param player
+	 * @param msg
+	 */
+	public void notifyNearbyPlayer(Player player, int radius, String msg) {
+		for (final Player p : player.getServer().getOnlinePlayers()) {
+			if (!p.equals(player)) {
+				if (player.getWorld().equals(p.getWorld())) {
+					if (player.getLocation().distance(p.getLocation()) <= (radius)) {
+						p.sendMessage(msg);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @param messages
+	 */
+	public static void logSection(String[] messages) {
+		if (messages.length > 0) {
+			ProtectronPlugin.getInstance().getLogger()
+					.info("--------------------- ## Important ## ---------------------");
+			for (final String msg : messages) {
+				ProtectronPlugin.getInstance().getLogger().info(msg);
+			}
+			ProtectronPlugin.getInstance().getLogger()
+					.info("--------------------- ## ========= ## ---------------------");
 		}
 	}
 

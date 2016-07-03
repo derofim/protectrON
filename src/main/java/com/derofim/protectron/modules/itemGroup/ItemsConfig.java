@@ -13,7 +13,7 @@ import com.derofim.protectron.util.Vars;
 public class ItemsConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(),
 			"sets" + Vars.FOLDER_SEPARATOR + "items.yml");
 
@@ -47,6 +47,12 @@ public class ItemsConfig extends AbstractConfig {
 
 		fconf.addDefault(Vars.PrefixClickMouseRight + ".IRON_PICKAXE." + Vars.SuffixOnBlocksEverywhere,
 				exampleBlocksList);
+		List<String> exampleAppleBlocksList = Arrays.asList("WOOD", "STONE");
+		fconf.addDefault(Vars.PrefixClickMouseRight + ".APPLE." + Vars.SuffixOnBlocksEverywhere,
+				exampleAppleBlocksList);
+		List<String> exampleCoalBlocksList = Arrays.asList("GRASS", "DIRT");
+		fconf.addDefault(Vars.PrefixClickMouseLeft + ".COAL." + Vars.SuffixOnBlocksEverywhere,
+				exampleCoalBlocksList);
 	}
 
 	@Override

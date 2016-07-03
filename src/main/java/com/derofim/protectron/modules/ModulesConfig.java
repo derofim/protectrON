@@ -9,6 +9,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.command.AbstractExecutor;
 import com.derofim.protectron.modules.command.executor.BlockNameCommandExecutor;
 import com.derofim.protectron.modules.command.executor.ItemNameCommandExecutor;
+import com.derofim.protectron.modules.command.executor.OopsLimit;
 import com.derofim.protectron.modules.command.executor.ReloadCommandExecutor;
 import com.derofim.protectron.modules.config.AbstractConfig;
 import com.derofim.protectron.util.Vars;
@@ -16,17 +17,25 @@ import com.derofim.protectron.util.Vars;
 public class ModulesConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(), "modules.yml");
 
 	// Modules
 	public static final String module_section = "modules_enabled";
 	public static final String MODULE_BLOCKS_PHYSICS = module_section + ".blocks_physics";
 	public static final String MODULE_BLOCKS_MOVEMENT = module_section + ".blocks_movement";
-
+	
+	public static final String MODULE_BLOCKS_BREAK = module_section + ".blocks_break";
+	public static final String MODULE_BLOCKS_PLACE = module_section + ".blocks_place";
+	
 	public static final String MODULE_COMMANDS = module_section + ".commands.enabled";
 
 	public static final String MODULE_DEBUG = module_section + ".debug";
+	public static final String MODULE_MYSQL = module_section + ".mysql";
+	public static final String MODULE_BLOCKS_LIMITER = module_section + ".blocks_limiter";
+	public static final String MODULE_BLOCKS_BURN = module_section + ".blocks_burn";
+	public static final String MODULE_BLOCKS_IGNITE = module_section + ".blocks_ignite";
+	public static final String MODULE_BLOCKS_FADE = module_section + ".blocks_fade";
 	public static final String MODULE_ENTITY_INTERACT = module_section + ".entity_interact";
 	public static final String MODULE_ENTITY_DAMAGE = module_section + ".entity_damage";
 	public static final String MODULE_ENTITY_EXPLODE = module_section + ".entity_explode";
@@ -38,6 +47,8 @@ public class ModulesConfig extends AbstractConfig {
 	public static final String MODULE_PLAYER_INTERACT_ENITY = module_section + ".player_interact_entity";
 	public static final String MODULE_PROJECTILE_HIT = module_section + ".projectile_hit";
 	public static final String MODULE_PISTON_EXTEND = module_section + ".piston_extend";
+	public static final String MODULE_PLAYER_JOIN = module_section + ".player_join";
+	public static final String MODULE_PLAYER_QUIT = module_section + ".player_quit";
 	public static final String MODULE_CMD_PREPROC_ENABLED = module_section + ".command_preprocess.enabled";
 	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS = module_section
 			+ ".command_preprocess.worldguard.autoflags";
@@ -45,6 +56,8 @@ public class ModulesConfig extends AbstractConfig {
 			+ ".command_preprocess.worldguard.autoname";
 	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND = module_section
 			+ ".command_preprocess.worldguard.autoexpand";
+	public static final String MODULE_CMD_PREPROC_WORLDGUARD_AUTOSELECT = module_section
+			+ ".command_preprocess.worldguard.autoselect";
 
 	public static final String CONFIG_MODULES_HEADER = "Main configuration file\r\n" + "\r\n" + "~~ Modules ~~\r\n"
 			+ "Modules checks player actions (when enabled). Most modules correspond to in-game events.\r\n"
@@ -77,12 +90,18 @@ public class ModulesConfig extends AbstractConfig {
 		commands.add(ReloadCommandExecutor.getInstance());
 		commands.add(ItemNameCommandExecutor.getInstance());
 		commands.add(BlockNameCommandExecutor.getInstance());
+		commands.add(OopsLimit.getInstance());
 		for (AbstractExecutor element : commands) {
 			fconf.addDefault(module_section + ".commands." + element.getConfigName(), true);
 		}
 		//
 		fconf.addDefault(MODULE_DEBUG, true);
+		fconf.addDefault(MODULE_BLOCKS_LIMITER, true);
+		fconf.addDefault(MODULE_PLAYER_QUIT, true);
+		fconf.addDefault(MODULE_PLAYER_JOIN, true);
 		fconf.addDefault(MODULE_ENTITY_INTERACT, true);
+		fconf.addDefault(MODULE_BLOCKS_BREAK, true);
+		fconf.addDefault(MODULE_BLOCKS_PLACE, true);
 		fconf.addDefault(MODULE_ENTITY_DAMAGE, true);
 		fconf.addDefault(MODULE_ENTITY_EXPLODE, true);
 		fconf.addDefault(MODULE_INVENTORY_OPEN, true);
@@ -93,10 +112,15 @@ public class ModulesConfig extends AbstractConfig {
 		fconf.addDefault(MODULE_PLAYER_INTERACT_ENITY, true);
 		fconf.addDefault(MODULE_PROJECTILE_HIT, true);
 		fconf.addDefault(MODULE_PISTON_EXTEND, true);
+		fconf.addDefault(MODULE_BLOCKS_BURN, true);
+		fconf.addDefault(MODULE_BLOCKS_IGNITE, true);
+		fconf.addDefault(MODULE_BLOCKS_FADE, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_ENABLED, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTONAME, true);
 		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND, true);
+		fconf.addDefault(MODULE_CMD_PREPROC_WORLDGUARD_AUTOSELECT, true);
+		fconf.addDefault(MODULE_MYSQL, true);
 	}
 
 	@Override

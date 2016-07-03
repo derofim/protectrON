@@ -7,8 +7,13 @@ import org.bukkit.Bukkit;
 
 import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.ModulesConfig;
+import com.derofim.protectron.modules.events.BlockIgnite.BlockIgniteHandler;
+import com.derofim.protectron.modules.events.blockBreak.BlockBreakHandler;
+import com.derofim.protectron.modules.events.blockBurn.BlockBurnHandler;
+import com.derofim.protectron.modules.events.blockFade.BlockFadeHandler;
 import com.derofim.protectron.modules.events.blockFromTo.BlockFromToHandler;
 import com.derofim.protectron.modules.events.blockPhysics.BlockPhysicsHandler;
+import com.derofim.protectron.modules.events.blockPlace.BlockPlaceHandler;
 import com.derofim.protectron.modules.events.entityDamage.EntityDamageHandler;
 import com.derofim.protectron.modules.events.entityExplode.EntityExplodeHandler;
 import com.derofim.protectron.modules.events.entityInteract.EntityInteractHandler;
@@ -17,6 +22,8 @@ import com.derofim.protectron.modules.events.pistonExtend.PistonExtendHandler;
 import com.derofim.protectron.modules.events.playerCommandPreprocess.PlayerCommandPreprocessHandler;
 import com.derofim.protectron.modules.events.playerEntityInteract.PlayerInteractEntityHandler;
 import com.derofim.protectron.modules.events.playerInteract.PlayerInteractHandler;
+import com.derofim.protectron.modules.events.playerJoin.PlayerJoinHandler;
+import com.derofim.protectron.modules.events.playerQuit.PlayerQuitHandler;
 import com.derofim.protectron.modules.events.projectileHit.ProjectileHitHandler;
 
 public class EventsManager {
@@ -41,6 +48,13 @@ public class EventsManager {
 		events.add(new PlayerInteractEntityHandler());
 		events.add(new PlayerInteractHandler());
 		events.add(new ProjectileHitHandler());
+		events.add(new BlockPlaceHandler());
+		events.add(new BlockBreakHandler());
+		events.add(new PlayerJoinHandler());
+		events.add(new PlayerQuitHandler());
+		events.add(new BlockBurnHandler());
+		events.add(new BlockFadeHandler());
+		events.add(new BlockIgniteHandler());
 	}
 
 	public void setEvents() {

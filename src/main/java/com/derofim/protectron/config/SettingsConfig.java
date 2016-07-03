@@ -9,13 +9,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import com.derofim.protectron.ProtectronPlugin;
+import com.derofim.protectron.manager.data.DataManager;
 import com.derofim.protectron.modules.config.AbstractConfig;
 import com.derofim.protectron.util.Vars;
 
 public class SettingsConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(), "settings.yml");
 
 	private static SettingsConfig instance = new SettingsConfig();
@@ -28,10 +29,21 @@ public class SettingsConfig extends AbstractConfig {
 
 	
 	public static final String PARAM_EXPAND_MAX_ENABLED = "autoexpand.auto_max_claim_size.enabled";
+	public static final String PARAM_EXPAND_MAX_X_ENABLED = "autoexpand.auto_max_claim_size.x.enabled";
+	public static final String PARAM_EXPAND_MAX_Y_ENABLED = "autoexpand.auto_max_claim_size.y.enabled";
+	public static final String PARAM_EXPAND_MAX_Z_ENABLED = "autoexpand.auto_max_claim_size.z.enabled";
 	public static final String PARAM_EXPAND_ADD_ENABLED = "autoexpand.add.enabled";
 	public static final String PARAM_EXPAND_ADD_X = "autoexpand.add.x";
 	public static final String PARAM_EXPAND_ADD_Y = "autoexpand.add.y";
 	public static final String PARAM_EXPAND_ADD_Z = "autoexpand.add.z";
+	//
+	public static final String PARAM_MYSQL_USER = "db.mysql.user";
+	public static final String PARAM_MYSQL_PASSWORD = "db.mysql.pasword";
+	public static final String PARAM_MYSQL_PREFIX = "db.mysql.prefix";
+	public static final String PARAM_MYSQL_DB = "db.mysql.database";
+	public static final String PARAM_MYSQL_SERVER = "db.mysql.server";
+	public static final String PARAM_MYSQL_PORT = "db.mysql.port";
+	public static final String PARAM_MYSQL_JDBC = "db.mysql.jdbc";
 	
 	
 	private SettingsConfig() {
@@ -53,8 +65,8 @@ public class SettingsConfig extends AbstractConfig {
 		
 		//
 		HashMap<String, Integer> claimsWidth = new HashMap<String, Integer>();
-		claimsWidth.put("default", 45);
-		claimsWidth.put("vip", 50);
+		claimsWidth.put("default", 35);
+		claimsWidth.put("vip", 40);
 		claimsWidth.put("super", 50);
 		claimsWidth.put("premium", 50);
 		claimsWidth.put("golden", 50);
@@ -65,20 +77,20 @@ public class SettingsConfig extends AbstractConfig {
 		}
 		//
 		HashMap<String, Integer> claimsHeight = new HashMap<String, Integer>();
-		claimsHeight.put("default", 45);
-		claimsHeight.put("vip", 50);
-		claimsHeight.put("super", 50);
-		claimsHeight.put("premium", 50);
-		claimsHeight.put("golden", 50);
-		claimsHeight.put("Moderator", 50);
-		claimsHeight.put("Admin", 50);
+		claimsHeight.put("default", 256);
+		claimsHeight.put("vip", 256);
+		claimsHeight.put("super", 256);
+		claimsHeight.put("premium", 256);
+		claimsHeight.put("golden", 256);
+		claimsHeight.put("Moderator", 256);
+		claimsHeight.put("Admin", 256);
 		for (String keyStr : claimsHeight.keySet()) {
 			fconf.addDefault(Vars.PARAM_GROUP_CLAIMS_HEIGHT + "." + keyStr, claimsHeight.get(keyStr));
 		}
 		//
 		HashMap<String, Integer> claimsLen = new HashMap<String, Integer>();
-		claimsLen.put("default", 45);
-		claimsLen.put("vip", 50);
+		claimsLen.put("default", 35);
+		claimsLen.put("vip", 40);
 		claimsLen.put("super", 50);
 		claimsLen.put("premium", 50);
 		claimsLen.put("golden", 50);
@@ -110,10 +122,21 @@ public class SettingsConfig extends AbstractConfig {
 		fconf.addDefault("VIP_FLAGS.item-drop", "allow");
 		fconf.addDefault("VIP_FLAGS.greeting", ChatColor.GOLD + "hello :)");
 		fconf.addDefault(PARAM_EXPAND_MAX_ENABLED, true);
+		fconf.addDefault(PARAM_EXPAND_MAX_X_ENABLED, true);
+		fconf.addDefault(PARAM_EXPAND_MAX_Y_ENABLED, true);
+		fconf.addDefault(PARAM_EXPAND_MAX_Z_ENABLED, true);
 		fconf.addDefault(PARAM_EXPAND_ADD_ENABLED, false);
 		fconf.addDefault(PARAM_EXPAND_ADD_X, 10);
 		fconf.addDefault(PARAM_EXPAND_ADD_Y, 10);
 		fconf.addDefault(PARAM_EXPAND_ADD_Z, 10);
+		
+		fconf.addDefault(PARAM_MYSQL_USER, "root");
+		fconf.addDefault(PARAM_MYSQL_PASSWORD, "root");
+		fconf.addDefault(PARAM_MYSQL_PREFIX, "protectron_");
+		fconf.addDefault(PARAM_MYSQL_DB, "protectron");
+		fconf.addDefault(PARAM_MYSQL_SERVER, "127.0.0.1");
+		fconf.addDefault(PARAM_MYSQL_PORT, "3306");
+		fconf.addDefault(PARAM_MYSQL_JDBC, "com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
 	}
 
 	@Override
@@ -121,6 +144,13 @@ public class SettingsConfig extends AbstractConfig {
 		return defaultFile;
 	}
 
+	@Override
+	public boolean onPostReload() {
+		DataManager.closeConnection();
+		DataManager.setupConnection();
+		return true;
+	}
+	
 	@Override
 	public String getLanguageVersion() {
 		return configLanguageVersion;

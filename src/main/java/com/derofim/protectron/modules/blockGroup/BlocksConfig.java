@@ -3,6 +3,9 @@ package com.derofim.protectron.modules.blockGroup;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -14,7 +17,7 @@ import com.derofim.protectron.util.Vars;
 public class BlocksConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(),
 			"sets" + Vars.FOLDER_SEPARATOR + "blocks.yml");
 
@@ -30,6 +33,8 @@ public class BlocksConfig extends AbstractConfig {
 			+ "Example 2: 1 - Checks by block id with any metadata\r\n"
 			+ "Example 3: CHEST:1 - Checks by block name with metadata 1\r\n"
 			+ "Example 4: 1:1 - Checks by block id with metadata 1\r\n";
+
+	public static Map<String, TreeSet<String>> mapSorted = new TreeMap<String, TreeSet<String>>();
 
 	private static BlocksConfig instance = new BlocksConfig();
 
@@ -57,11 +62,53 @@ public class BlocksConfig extends AbstractConfig {
 		fconf.addDefault(Vars.AE2, appliedenergeticsBlocksList);
 		fconf.addDefault(Vars.TEST, testBlocksList);
 		fconf.addDefault(Vars.PHYSICS_BLOCKS, physicsBlocksList);
+
+		fconf.addDefault(Vars.PLACE_DENY, Arrays.asList("SNOW", "YELLOW_FLOWER"));
+		fconf.addDefault(Vars.BREAK_DENY, Arrays.asList("SNOW"));
+		
+		fconf.addDefault(Vars.LIMIT_BLOCKS, Arrays.asList("IC2_BLOCKMACHINE:1", "IC2_BLOCKMACHINE:2", "IC2_BLOCKMACHINE2"));
 	}
 
 	@Override
 	public File getFile() {
 		return defaultFile;
+	}
+
+	public static TreeSet<String> getBlockSet(String groupName) {
+		return mapSorted.get(groupName);
+	}
+
+	public static boolean containsBlockSet(String groupName, String blockName) {
+		return mapSorted.get(groupName).contains(blockName);
+	}
+
+	private void reloadMapSorted() {
+		mapSorted.clear();
+		for (String key : getConfig().getKeys(false)) {
+			TreeSet<String> arraylistContent = new TreeSet<String>();
+			for (String value : getStrList(key)) {
+				arraylistContent.add(value);
+			}
+			mapSorted.put(key, arraylistContent);
+		}
+		/**
+		 * plugin.getLogger().info("mapSorted: "); for (String key :
+		 * mapSorted.keySet()) { plugin.getLogger().info("+" + key); for (String
+		 * value : mapSorted.get(key)) { plugin.getLogger().info("++" + value);
+		 * } }
+		 */
+	}
+
+	@Override
+	public boolean onPostLoad() {
+		reloadMapSorted();
+		return true;
+	}
+
+	@Override
+	public boolean onPostReload() {
+		reloadMapSorted();
+		return true;
 	}
 
 	@Override

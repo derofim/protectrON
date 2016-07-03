@@ -52,7 +52,8 @@ public class PlayerCommandPreprocessController {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean handleAutoFlags(PlayerCommandPreprocessEvent e, String rgname) {
 		Player player = e.getPlayer();
-		if(player.hasPermission("protectron.claim.autoflags.bypass")) return false;
+		if (player.hasPermission("protectron.claim.autoflags.bypass"))
+			return false;
 		RegionManager regionManager = wg.getRegionManager(player.getWorld());
 		ProtectedRegion pr = regionManager.getRegion(rgname);
 		if (pr == null) {
@@ -99,11 +100,10 @@ public class PlayerCommandPreprocessController {
 
 	// Creates new region without limits check
 	// returns true if region created successfully
-	private boolean createNewRegion(PlayerCommandPreprocessEvent e, Selection selection) {
+	private boolean createNewRegion(PlayerCommandPreprocessEvent e, Selection selection, String rgName) {
 		Player player = e.getPlayer();
-		if(player.hasPermission("protectron.claim.all.bypass")) return false;
-		String msg = e.getMessage();
-		String rgname = msg.split(" ")[2];
+		if (player.hasPermission("protectron.claim.all.bypass"))
+			return false;
 		RegionManager regionManager = wg.getRegionManager(player.getWorld());
 		// see http://wiki.sk89q.com/wiki/WorldGuard/Regions/API
 		Location locMin = selection.getMinimumPoint();
@@ -120,14 +120,14 @@ public class PlayerCommandPreprocessController {
 		// plot was inside regions owned by player
 		RegionCommands r = new RegionCommands(wg);
 		try {
-			CommandContext args = new CommandContext(new String[] { "claim", rgname });
+			CommandContext args = new CommandContext(new String[] { "claim", rgName });
 			r.claim(args, player);
 			if (debugVerbose) {
 				lg.info("Claimed region");
 			}
 			player.sendMessage(mcfg.getStr(MessagesConfig.MSG_WG_CREATED));
 			if (ModulesConfig.getInstance().getBool(ModulesConfig.MODULE_CMD_PREPROC_WORLDGUARD_AUTOFLAGS)) {
-				if (!handleAutoFlags(e, rgname)) {
+				if (!handleAutoFlags(e, rgName)) {
 					player.sendMessage(mcfg.getStr(MessagesConfig.MSG_WG_ERR_CANT_AUTO_FLAG));
 				}
 			}
@@ -137,7 +137,7 @@ public class PlayerCommandPreprocessController {
 			return false;
 		}
 		// make sure that the region creation was a success before charging
-		ProtectedRegion newRg = regionManager.getRegion(rgname);
+		ProtectedRegion newRg = regionManager.getRegion(rgName);
 		if (newRg == null) {
 			player.sendMessage(mcfg.getStr(MessagesConfig.MSG_WG_ERR_WRONG));
 			return false;
@@ -149,7 +149,8 @@ public class PlayerCommandPreprocessController {
 	}
 
 	private boolean isRegionLimitsExceed(Player player, Selection selection) {
-		if(player.hasPermission("protectron.claim.limits.bypass")) return false;
+		if (player.hasPermission("protectron.claim.limits.bypass"))
+			return false;
 		String pGroup = PermissionManager.getInstance().getPermission().getPrimaryGroup(player);
 		Integer maxTotalSize = getClaimTotalLimitByGroup(pGroup);
 		Integer maxWidthSize = getClaimWidthLimitByGroup(pGroup);
@@ -183,7 +184,7 @@ public class PlayerCommandPreprocessController {
 		return false;
 	}
 
-	private boolean handleCreationOfNewRegion(PlayerCommandPreprocessEvent e, Selection selection) {
+	private boolean handleCreationOfNewRegion(PlayerCommandPreprocessEvent e, Selection selection, String rgName) {
 		Player player = e.getPlayer();
 		if (debugVerbose) {
 			lg.info("Selection width: " + selection.getWidth());
@@ -192,7 +193,7 @@ public class PlayerCommandPreprocessController {
 		if (isRegionLimitsExceed(player, selection))
 			return true;
 
-		if (!createNewRegion(e, selection))
+		if (!createNewRegion(e, selection, rgName))
 			return true;
 		return true;
 	}
@@ -234,7 +235,7 @@ public class PlayerCommandPreprocessController {
 			return false;
 		if (debugVerbose)
 			lg.info("WG COMMAND: rg");
-		if (!msg.startsWith("/region claim ") && !msg.startsWith("/rg claim "))
+		if (!msg.startsWith("/region claim") && !msg.startsWith("/rg claim"))
 			return false;
 		Player player = e.getPlayer();
 		if (player instanceof Player) {
@@ -244,8 +245,13 @@ public class PlayerCommandPreprocessController {
 			return true;
 		}
 		if (split.length < 3) {
+			if (debugVerbose)
+				lg.info("WG autoname");
 			if (ModulesConfig.getInstance().getBool(ModulesConfig.MODULE_CMD_PREPROC_WORLDGUARD_AUTONAME)) {
-				msg += " zone" + wg.getRegionManager(player.getWorld()).getRegionCountOfPlayer(wg.wrapPlayer(player));
+				msg += " " + player.getDisplayName()
+						+ wg.getRegionManager(player.getWorld()).getRegionCountOfPlayer(wg.wrapPlayer(player));
+				if (debugVerbose)
+					lg.info("WG autoname equals" + msg);
 			} else {
 				lg.info("need more args");
 				return false;
@@ -262,8 +268,17 @@ public class PlayerCommandPreprocessController {
 		// cancel the normal region claim event
 		e.setCancelled(true);
 		Selection selection = wed.getSelection(player);
+		if (selection == null || selection.getArea() < 2) {
+			if (ModulesConfig.getInstance().getBool(ModulesConfig.MODULE_CMD_PREPROC_WORLDGUARD_AUTOSELECT)) {
+				selection = new CuboidSelection(player.getWorld(), player.getLocation().add(-1, -1, -1),
+						player.getLocation().add(1, 1, 1));
+				if (debugVerbose)
+					lg.info("WG autoselecting");
+			}
+		}
 		Selection tmpSelection = selection;
-		if (ModulesConfig.getInstance().getBool(ModulesConfig.MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND) && !player.hasPermission("protectron.claim.autoexpand.bypass")) {
+		if (ModulesConfig.getInstance().getBool(ModulesConfig.MODULE_CMD_PREPROC_WORLDGUARD_AUTOEXPAND)
+				&& !player.hasPermission("protectron.claim.autoexpand.bypass") && selection != null) {
 			if (debugVerbose)
 				lg.info("WG autoexpanding");
 			// m.getServer().dispatchCommand(player, "//expand vert");
@@ -277,9 +292,18 @@ public class PlayerCommandPreprocessController {
 				wed.setSelection(player, selection);
 			}
 			if (stfg.getBool(SettingsConfig.PARAM_EXPAND_MAX_ENABLED)) {
-				int autoMaxX = getClaimWidthLimitByGroup(pGroup);
-				int autoMaxY = getClaimHeightLimitByGroup(pGroup);
-				int autoMaxZ = getClaimLengthLimitByGroup(pGroup);
+				int autoMaxX = 0;
+				int autoMaxY = 0;
+				int autoMaxZ = 0;
+				if (stfg.getBool(SettingsConfig.PARAM_EXPAND_MAX_X_ENABLED)) {
+					autoMaxX = getClaimWidthLimitByGroup(pGroup);
+				}
+				if (stfg.getBool(SettingsConfig.PARAM_EXPAND_MAX_Y_ENABLED)) {
+					autoMaxY = getClaimHeightLimitByGroup(pGroup);
+				}
+				if (stfg.getBool(SettingsConfig.PARAM_EXPAND_MAX_Z_ENABLED)) {
+					autoMaxZ = getClaimLengthLimitByGroup(pGroup);
+				}
 				int deltaAutoMaxX = autoMaxX - selection.getWidth();
 				int deltaAutoMaxY = autoMaxY - selection.getHeight();
 				int deltaAutoMaxZ = autoMaxZ - selection.getLength();
@@ -296,13 +320,16 @@ public class PlayerCommandPreprocessController {
 			}
 		}
 		RegionManager regionManager = wg.getRegionManager(player.getWorld());
-		String rgname = msg.split(" ")[2];
+		String[] splittedMsg = msg.split(" ");
+		if (splittedMsg.length <= 1)
+			return false;
+		String rgName = splittedMsg[2];
 		if (selection != null) {
 			if (debugVerbose)
 				lg.info("WG COMMAND: selection != null");
-			ProtectedRegion existingRg = regionManager.getRegion(rgname);
+			ProtectedRegion existingRg = regionManager.getRegion(rgName);
 			if (existingRg == null) {
-				if (handleCreationOfNewRegion(e, selection))
+				if (handleCreationOfNewRegion(e, selection, rgName))
 					return true;
 			} else {
 				if (debugVerbose)

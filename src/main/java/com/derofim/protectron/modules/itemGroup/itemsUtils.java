@@ -2,14 +2,14 @@ package com.derofim.protectron.modules.itemGroup;
 
 import org.bukkit.inventory.ItemStack;
 
-public class itemsUtils {
-	private static itemsUtils instance = new itemsUtils();
+public class ItemsUtils {
+	private static ItemsUtils instance = new ItemsUtils();
 
-	public static final itemsUtils getInstance() {
+	public static final ItemsUtils getInstance() {
 		return instance;
 	}
 
-	private itemsUtils() {
+	private ItemsUtils() {
 	}
 	
 

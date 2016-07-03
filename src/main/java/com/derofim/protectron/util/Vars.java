@@ -22,6 +22,7 @@ public class Vars {
 	public static final String PERM_DPROT = "protectron.debug.console.notify.protected";
 	public static final String PERM_ITEM_NAME = "protectron.command.item.name";
 	public static final String PERM_BLOCK_NAME = "protectron.command.block.name";
+	public static final String PERM_OOPS_LIMIT = "protectron.command.oopslimit.me";
 	public static final String PERM_RLD = "protectron.command.plugin.reload";
 	public static final String PERM_ALL_INV_ACCESS = "protectron.access.everywhere.inventory";
 	public static final String PERM_ALL_BLOCKS_INTERACT = "protectron.access.everywhere.blocks";
@@ -33,6 +34,7 @@ public class Vars {
 	public static final String PERM_GET_DAMAGED_BY_ENTITY_PROJECTILE_EVERYWHERE = "protectron.damage.get.everywhere.projectile";
 	public static final String PERM_INTERACT_ENTITY_EVERYWHERE = "protectron.interact.everywhere.entity";
 	public static final String PERM_VIEW_INV_NAME = "protectron.view.inventory.name";
+	public static final String PERM_BLOCKS_LIMITS = "protectron.blocks.limits.bypass";
 
 	// Local settings
 	public static final String PARAM_GROUP_CLAIMS_WIDTH = "claim.limits.width";
@@ -67,6 +69,9 @@ public class Vars {
 	public static final String TEST = "CUSTOM_BLOCKS";
 	public static final String PHYSICS_BLOCKS = "PHYSICS_BLOCKS";
 
+	public static final String PLACE_DENY = "PLACE_DENY";
+	public static final String BREAK_DENY = "BREAK_DENY";
+	public static final String LIMIT_BLOCKS = "LIMIT_BLOCKS";
 	// Item sets
 	public static final String VANILLA_ITEMS = "VANILLA_ITEMS";
 	public static final String TEST_ITEMS = "CUSTOM_ITEMS";
@@ -75,6 +80,7 @@ public class Vars {
 	public static final String CMD_RELOAD = "preload";
 	public static final String CMD_ITEM_NAME = "pitem";
 	public static final String CMD_BLOCK_NAME = "pblock";
+	public static final String CMD_OOPS_LIMIT = "oopslimit";
 
 	// Common
 	public static final String BLOCK_DISPENSER = "DISPENSER";

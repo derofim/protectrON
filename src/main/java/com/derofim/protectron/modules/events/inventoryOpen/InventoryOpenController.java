@@ -22,7 +22,7 @@ public class InventoryOpenController {
 	private Logger lg = main.getLogger();
 	private WorldGuardPlugin wg = ProtectionManager.getInstance().getWorldGuard();
 	private MessagesConfig msg = MessagesConfig.getInstance();
-	inventoryOpenConfig icf = inventoryOpenConfig.getInstance();
+	InventoryOpenConfig icf = InventoryOpenConfig.getInstance();
 	private final boolean debugVerbose = false;
 
 	public InventoryOpenController() {
@@ -30,19 +30,19 @@ public class InventoryOpenController {
 
 	// Returns true if action not allowed with invName in region regionConfigName
 	private boolean checkListsByConfigRegion(String worldName, String invName, String regionConfigName) {
-		if (!icf.getConfig().contains(inventoryOpenConfig.formRegionConfigName(worldName, regionConfigName)))
+		if (!icf.getConfig().contains(InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName)))
 			return false;
-		if (!icf.getBool(inventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + ".enabled")) {
+		if (!icf.getBool(InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + ".enabled")) {
 			if (debugVerbose) {
-				lg.info(inventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + ".enabled = false");
+				lg.info(InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + ".enabled = false");
 			}
 			return false;
 		}
-		String moduleMode = icf.getStr(inventoryOpenConfig.formWorldConfigName(worldName) + ".Module.Mode");
+		String moduleMode = icf.getStr(InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + ".Module.Mode");
 		List<String> whitelist = icf.getStrList(
-				inventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + "." + Vars.WHITELIST);
+				InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + "." + Vars.WHITELIST);
 		List<String> blacklist = icf.getStrList(
-				inventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + "." + Vars.BLACKLIST);
+				InventoryOpenConfig.formRegionConfigName(worldName, regionConfigName) + "." + Vars.BLACKLIST);
 		if (moduleMode.equalsIgnoreCase(Vars.WHITELIST)) {
 			for (String s : whitelist) {
 				List<String> whitelistInv = icf.getStrList(s);
@@ -72,13 +72,13 @@ public class InventoryOpenController {
 		if (p.hasPermission(Vars.PERM_ALL_INV_ACCESS))
 			return false;
 
-		if (checkListsByConfigRegion(worldName, invName, inventoryOpenConfig.GLOBAL_REGION)) {
+		if (checkListsByConfigRegion(worldName, invName, InventoryOpenConfig.GLOBAL_REGION)) {
 			p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + inv.getType().toString());
 			return true;
 		}
 
 		if (!wg.canBuild(p, location)) {
-			if (!checkListsByConfigRegion(worldName, invName, inventoryOpenConfig.FOREIGN_REGION))
+			if (!checkListsByConfigRegion(worldName, invName, InventoryOpenConfig.FOREIGN_REGION))
 				return false;
 			p.sendMessage(msg.getStr(MessagesConfig.MSG_NOT_ALLOWED) + " " + inv.getType().toString() + ". "
 					+ msg.getStr(MessagesConfig.MSG_REG_PROTECTED));
@@ -99,13 +99,13 @@ public class InventoryOpenController {
 			lg.info(ChatColor.GOLD + "Inventory name: " + ChatColor.WHITE + invName);
 		}
 		String worldName = p.getWorld().getName().toLowerCase();
-		if (icf.getConfig().contains(inventoryOpenConfig.formWorldConfigName(worldName))) {
+		if (icf.getConfig().contains(InventoryOpenConfig.formWorldConfigName(worldName))) {
 			// check by region
 			if (location != null && checkOpenedRegion(e, location)) {
 				return true;
 			}
 		} else if (debugVerbose)
-			lg.info("Cant find " + inventoryOpenConfig.formWorldConfigName(worldName));
+			lg.info("Cant find " + InventoryOpenConfig.formWorldConfigName(worldName));
 		return false;
 	}
 }

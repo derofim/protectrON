@@ -13,7 +13,7 @@ import com.derofim.protectron.util.Vars;
 public class MessagesConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(),
 			Vars.FOLDER_MODULES + Vars.FOLDER_SEPARATOR + "messages" + Vars.FOLDER_SEPARATOR + "messages.yml");
 
@@ -32,6 +32,12 @@ public class MessagesConfig extends AbstractConfig {
 	public static final String MSG_WG_CREATED = "msg_wg_created";
 	public static final String MSG_WG_ERR_CANT_AUTO_FLAG = "msg_wg_cant_auto_flag";
 	public static final String MSG_WG_ERR_NO_REGION = "msg_wg_err_no_region";
+	public static final String MSG_LIMIT_REACHED = "msg_limit_reached";
+	public static final String MSG_LIMIT_BLOCK = "msg_limit_block";
+	public static final String MSG_BLOCK_PROTECTED = "msg_block_protected";
+	public static final String MSG_LIMITS_CLEARED = "msg_limits_cleared";
+	public static final String MSG_NOT_ALLOWED_BREAK = "msg_not_allowed_break";
+	public static final String MSG_NOT_ALLOWED_PLACE = "msg_not_allowed_place";
 
 	public static final String CONFIG_MESSAGES_HEADER = "~~ Messages ~~\r\n" + "* " + MSG_NOT_ALLOWED + "\r\n"
 			+ "Message like 'It is forbidden to interact with' that will be sent to the player when he is trying to do prohibited action.\r\n"
@@ -55,6 +61,7 @@ public class MessagesConfig extends AbstractConfig {
 		fconf.addDefault(MSG_NOT_ALLOWED, ChatColor.GOLD + "Not allowed " + ChatColor.WHITE);
 		fconf.addDefault(MSG_REG_PROTECTED, ChatColor.GOLD + "Region protected " + ChatColor.WHITE);
 		fconf.addDefault(MSG_NO_PERMISSION, ChatColor.GOLD + "Not enough permissions " + ChatColor.WHITE);
+		fconf.addDefault(MSG_ONLY_PLAYERS, ChatColor.GOLD + "Only players can use it " + ChatColor.WHITE);
 		fconf.addDefault(MSG_WG_ERR_MAX_HEIGHT, ChatColor.RED + "Error. Max region height is: ");
 		fconf.addDefault(MSG_WG_ERR_MAX_WIDTH, ChatColor.RED + "Error. Max region width is: ");
 		fconf.addDefault(MSG_WG_ERR_MAX_LENGTH, ChatColor.RED + "Error. Max region length is: ");
@@ -65,6 +72,13 @@ public class MessagesConfig extends AbstractConfig {
 		fconf.addDefault(MSG_WG_CREATED, ChatColor.GREEN + "Region created. ");
 		fconf.addDefault(MSG_WG_ERR_CANT_AUTO_FLAG, ChatColor.RED + "Error. Cant automatically set flags! ");
 		fconf.addDefault(MSG_WG_ERR_NO_REGION, ChatColor.RED + "Error. Cant find region! ");
+		fconf.addDefault(MSG_LIMIT_REACHED, ChatColor.GOLD + "Limit reached! ");
+		fconf.addDefault(MSG_LIMIT_BLOCK, ChatColor.GOLD + "Your limit for block #blockname# is " + ChatColor.YELLOW);
+		fconf.addDefault(MSG_BLOCK_PROTECTED, ChatColor.GOLD + "Block #blockname# at #location# protected ");
+		fconf.addDefault(MSG_NOT_ALLOWED_BREAK, ChatColor.GOLD + "Not allowed to break #blockname# ");
+		fconf.addDefault(MSG_NOT_ALLOWED_PLACE, ChatColor.GOLD + "Not allowed to place #blockname# ");
+		fconf.addDefault(MSG_LIMITS_CLEARED, ChatColor.GOLD + "Limits of player" + ChatColor.YELLOW + " #player#"
+				+ ChatColor.GOLD + " cleared. Deleted" + ChatColor.YELLOW + " #count#" + ChatColor.GOLD + " blocks ");
 	}
 
 	@Override

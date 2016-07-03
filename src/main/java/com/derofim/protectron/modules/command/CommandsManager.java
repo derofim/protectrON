@@ -7,6 +7,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.ModulesConfig;
 import com.derofim.protectron.modules.command.executor.BlockNameCommandExecutor;
 import com.derofim.protectron.modules.command.executor.ItemNameCommandExecutor;
+import com.derofim.protectron.modules.command.executor.OopsLimit;
 import com.derofim.protectron.modules.command.executor.ReloadCommandExecutor;
 
 public class CommandsManager {
@@ -22,9 +23,11 @@ public class CommandsManager {
 	}
 
 	private CommandsManager() {
+		// Also in ModulesConfig and plugin.yml
 		commands.add(ReloadCommandExecutor.getInstance());
 		commands.add(ItemNameCommandExecutor.getInstance());
 		commands.add(BlockNameCommandExecutor.getInstance());
+		commands.add(OopsLimit.getInstance());
 	}
 
 	// Registers commands, for more info visit

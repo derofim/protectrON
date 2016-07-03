@@ -2,6 +2,8 @@ package com.derofim.protectron.modules.config;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -51,14 +53,42 @@ public abstract class AbstractConfig implements ConfigInterface {
 		} else {
 			updateConfig();
 		}
+		if (!onPostLoad()) {
+			return null;
+		}
 		return fc;
 	}
-	
+
 	public FileConfiguration reloadConfig() {
 		if (!getFile().exists()) {
 			loadConfig();
 		}
-		return fc = configUtils.loadConfig(getFile());
+		if (onPreReload()) {
+			fc = configUtils.loadConfig(getFile());
+		}
+		if (!onPostReload()) {
+			return null;
+		}
+		return fc;
+	}
+
+	// Returns true if FileConfiguration must be reloaded
+	public boolean onPreReload() {
+		return true;
+	}
+
+	// Returns true if FileConfiguration must be reloaded
+	public boolean onPostReload() {
+		return true;
+	}
+
+	// Returns true if FileConfiguration must be loaded
+	public boolean onPostLoad() {
+		return true;
+	}
+
+	protected Set<String> getSectionKeys(String section) {
+		return getConfig().getConfigurationSection(section).getKeys(false);
 	}
 
 	public String getConfigVersion() {
@@ -80,7 +110,7 @@ public abstract class AbstractConfig implements ConfigInterface {
 			fc = configUtils.loadConfig(getFile());
 		}
 	}
-	
+
 	public int getInt(String par) {
 		return getConfig().getInt(par);
 	}
@@ -91,6 +121,16 @@ public abstract class AbstractConfig implements ConfigInterface {
 
 	public String getStr(String par) {
 		return getConfig().getString(par);
+	}
+
+	public String prepareStr(String par, Map<String, String> match) {
+		String result = getConfig().getString(par);
+
+		for (String key : match.keySet()) {
+			if (result.contains(key))
+				result = result.replace(key, match.get(key));
+		}
+		return result;
 	}
 
 	public List<String> getStrList(String par) {

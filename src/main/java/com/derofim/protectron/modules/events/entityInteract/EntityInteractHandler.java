@@ -6,6 +6,7 @@ import org.bukkit.event.entity.EntityInteractEvent;
 
 import com.derofim.protectron.modules.ModulesConfig;
 import com.derofim.protectron.modules.events.AbstractEvent;
+import com.derofim.protectron.modules.limiter.BlockLimitHandler;
 
 public class EntityInteractHandler extends AbstractEvent {
 	private EntityInteractController entityInteractController = null;
@@ -13,7 +14,7 @@ public class EntityInteractHandler extends AbstractEvent {
 	public EntityInteractHandler() {
 		entityInteractController = new EntityInteractController();
 	}
-	
+
 	@Override
 	public String getConfigName() {
 		return ModulesConfig.MODULE_ENTITY_INTERACT;
@@ -38,5 +39,11 @@ public class EntityInteractHandler extends AbstractEvent {
 			return true;
 		}
 		return false;
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void entityInteractEventMonitor(EntityInteractEvent e) {
+		if (BlockLimitHandler.handleBlockProtection(e.getBlock()))
+			e.setCancelled(true);
 	}
 }

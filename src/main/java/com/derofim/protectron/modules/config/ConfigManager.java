@@ -8,9 +8,12 @@ import com.derofim.protectron.config.SettingsConfig;
 import com.derofim.protectron.modules.ModulesConfig;
 import com.derofim.protectron.modules.blockGroup.BlocksConfig;
 import com.derofim.protectron.modules.debug.DebugConfig;
-import com.derofim.protectron.modules.events.inventoryOpen.inventoryOpenConfig;
+import com.derofim.protectron.modules.events.blockBreak.BlockBreakConfig;
+import com.derofim.protectron.modules.events.blockPlace.BlockPlaceConfig;
+import com.derofim.protectron.modules.events.inventoryOpen.InventoryOpenConfig;
 import com.derofim.protectron.modules.events.playerInteract.PlayerInteractConfig;
 import com.derofim.protectron.modules.itemGroup.ItemsConfig;
+import com.derofim.protectron.modules.limiter.BlockLimitConfig;
 import com.derofim.protectron.modules.messages.MessagesConfig;
 
 /**
@@ -37,7 +40,10 @@ public class ConfigManager {
 		configurations.add(MessagesConfig.getInstance());
 		configurations.add(ModulesConfig.getInstance());
 		configurations.add(SettingsConfig.getInstance());
-		configurations.add(inventoryOpenConfig.getInstance());
+		configurations.add(InventoryOpenConfig.getInstance());
+		configurations.add(BlockBreakConfig.getInstance());
+		configurations.add(BlockPlaceConfig.getInstance());
+		configurations.add(BlockLimitConfig.getInstance());
 	}
 
 	public void load() {

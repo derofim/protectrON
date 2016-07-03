@@ -12,7 +12,7 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.manager.ProtectionManager;
 import com.derofim.protectron.modules.blockGroup.BlocksUtils;
 import com.derofim.protectron.modules.debug.DebugConfig;
-import com.derofim.protectron.modules.itemGroup.itemsUtils;
+import com.derofim.protectron.modules.itemGroup.ItemsUtils;
 import com.derofim.protectron.modules.messages.MessagesConfig;
 import com.derofim.protectron.util.Vars;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
@@ -57,7 +57,7 @@ public class PackManager {
 		for (String itStack : namesList) {
 			if (dcf.getBool(DebugConfig.PARAM_DALL) && p.hasPermission(Vars.PERM_DBGPLG))
 				lg.info("+ " + itStack);
-			if (itemsUtils.checkEqualItem(b, itStack)) {
+			if (ItemsUtils.checkEqualItem(b, itStack)) {
 				String msgProt = "";
 				if (!wg.canBuild(p, e.getClickedBlock().getLocation()))
 					msgProt = msg.getStr(MessagesConfig.MSG_REG_PROTECTED);

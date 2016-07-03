@@ -13,9 +13,9 @@ import com.derofim.protectron.util.Vars;
 public class PlayerInteractConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(), Vars.FOLDER_MODULES + Vars.FOLDER_SEPARATOR
-			+ "player_interact" + Vars.FOLDER_SEPARATOR + "player_interact.yml");
+			+ "events" + Vars.FOLDER_SEPARATOR + "player_interact.yml");
 
 	// Action packs
 	public static final String RC_BG_WG = "PACKS.CLICK.RIGHT_MOUSE.DENY.BLOCK.IN_FOREIGN_PRIVATE";

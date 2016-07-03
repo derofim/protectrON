@@ -10,27 +10,28 @@ import com.derofim.protectron.ProtectronPlugin;
 import com.derofim.protectron.modules.config.AbstractConfig;
 import com.derofim.protectron.util.Vars;
 
-public class inventoryOpenConfig extends AbstractConfig {
+public class InventoryOpenConfig extends AbstractConfig {
 	private static ProtectronPlugin plugin = ProtectronPlugin.getInstance();
 
-	private final String configLanguageVersion = "0.0.6";
+	private final String configLanguageVersion = "0.0.8";
 	private final static File defaultFile = new File(plugin.getDataFolder(), Vars.FOLDER_MODULES + Vars.FOLDER_SEPARATOR
-			+ "inventory_open" + Vars.FOLDER_SEPARATOR + "inventory_open.yml");
+			+ "events" + Vars.FOLDER_SEPARATOR + "inventory_open.yml");
 
-	private static inventoryOpenConfig instance = new inventoryOpenConfig();
+	private static InventoryOpenConfig instance = new InventoryOpenConfig();
 
-	public static final inventoryOpenConfig getInstance() {
+	public static final InventoryOpenConfig getInstance() {
 		return instance;
 	}
 
 	public static final String INV = "OpenInventory";
 	public static final String FOREIGN_REGION = "foreign_region";
 	public static final String GLOBAL_REGION = "global_region";
-	public static final String PARAM_WORLD_OPEN_INVENTORY_MODULE_MODE = INV + ".world.Module.Mode";
+	public static final String PARAM_WORLD_OPEN_INVENTORY_FOREIGN_MODULE_MODE = INV + ".world." + FOREIGN_REGION + ".Module.Mode";
 	public static final String PARAM_WORLD_INV_FOREIGN_REGION = INV + ".world." + FOREIGN_REGION + ".enabled";
 	public static final String PARAM_WORLD_INV_WHITELIST = INV + ".world." + FOREIGN_REGION + "." + Vars.WHITELIST;
 	public static final String PARAM_WORLD_INV_BLACKLIST = INV + ".world." + FOREIGN_REGION + "." + Vars.BLACKLIST;
-	public static final String PARAM_DIM1_OPEN_INVENTORY_MODULE_MODE = INV + ".dim-1.Module.Mode";
+	public static final String PARAM_DIM1_OPEN_INVENTORY_FOREIGN_MODULE_MODE = INV + ".dim-1." + FOREIGN_REGION + ".Module.Mode";
+	public static final String PARAM_DIM1_OPEN_INVENTORY_GLOBAL_MODULE_MODE = INV + ".dim-1." + GLOBAL_REGION + ".Module.Mode";
 	public static final String PARAM_DIM1_INV_FOREIGN_REGION = INV + ".dim-1." + FOREIGN_REGION + ".enabled";
 	public static final String PARAM_DIM1_INV_FOREIGN_WHITELIST = INV + ".dim-1." + FOREIGN_REGION + "."
 			+ Vars.WHITELIST;
@@ -45,11 +46,11 @@ public class inventoryOpenConfig extends AbstractConfig {
 			+ ":\r\n * Should we disallow opening any inventory (Block, Chest, Entity, DoubleChest) in region owned by other player. Players with permission "
 			+ Vars.PERM_ALL_INV_ACCESS + " can open without any checks.";
 
-	private inventoryOpenConfig() {
+	private InventoryOpenConfig() {
 	}
 
 	public static String formWorldConfigName(String worldName) {
-		return inventoryOpenConfig.INV + "." + worldName;
+		return InventoryOpenConfig.INV + "." + worldName;
 	}
 
 	public static String formRegionConfigName(String worldName, String regionConfigName) {
@@ -60,10 +61,10 @@ public class inventoryOpenConfig extends AbstractConfig {
 	protected void setCustomDefaults(FileConfiguration fconf) {
 		fconf.addDefault(PARAM_WORLD_INV_FOREIGN_REGION, true);
 		fconf.addDefault(PARAM_DIM1_INV_GLOBAL_REGION, false);
-		fconf.addDefault(PARAM_DIM1_OPEN_INVENTORY_MODULE_MODE, false);
 		//
-		fconf.addDefault(PARAM_WORLD_OPEN_INVENTORY_MODULE_MODE, "whitelist");
-		fconf.addDefault(PARAM_DIM1_OPEN_INVENTORY_MODULE_MODE, "blacklist");
+		fconf.addDefault(PARAM_WORLD_OPEN_INVENTORY_FOREIGN_MODULE_MODE, "whitelist");
+		fconf.addDefault(PARAM_DIM1_OPEN_INVENTORY_FOREIGN_MODULE_MODE, "blacklist");
+		fconf.addDefault(PARAM_DIM1_OPEN_INVENTORY_GLOBAL_MODULE_MODE, "blacklist");
 		List<String> whitelistinv = Arrays.asList("IC2_INV", "BC2_INV");
 		List<String> blacklistinv = Arrays.asList("VANILLA_INV");
 		fconf.addDefault(PARAM_WORLD_INV_WHITELIST, whitelistinv);
